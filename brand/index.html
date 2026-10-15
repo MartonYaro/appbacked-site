@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AppBacked Brand Kit</title>
+<meta name="description" content="Logo, colour, type, 3D renders, backgrounds and social assets for AppBacked.">
+<meta name="theme-color" content="#2230E6">
+<link rel="icon" href="logo/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&family=Funnel+Sans:wght@300..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+<style>
+  .bk-hdr { position: sticky; top: 0; z-index: 20; background: var(--bone); border-bottom: 1px solid var(--line); }
+  .bk-hdr .wrap { display: flex; justify-content: space-between; align-items: center; height: 64px; gap: 20px; }
+  .bk-hdr img { height: 26px; width: auto; }
+  .bk-hdr nav { display: flex; gap: 18px; font-size: 14px; font-weight: 500; flex-wrap: wrap; }
+  .bk-hdr nav a { text-decoration: none; color: var(--muted); }
+  .bk-hdr nav a:hover { color: var(--ink); }
+  @media (max-width: 900px) { .bk-hdr nav { display: none; } }
+  .cover { min-height: 88vh; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: 20px; padding: 60px var(--gutter); overflow: hidden; }
+  .cover h1 { font-size: clamp(54px, 8vw, 132px); }
+  .cover h1 em { font-style: normal; color: var(--lime); }
+  .cover p { color: var(--on-blue); margin-top: 26px; max-width: 40ch; font-size: 19px; }
+  .cover img { width: 120%; max-width: none; margin-left: -10%; }
+  @media (max-width: 900px) { .cover { grid-template-columns: 1fr; } .cover img { width: 100%; margin: 0; } }
+  .kgrid { display: grid; gap: 16px; }
+  .k2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .k3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .k4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  @media (max-width: 900px) { .k3, .k4 { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .k2, .k3, .k4 { grid-template-columns: 1fr; } }
+  .tile { border-radius: 22px; overflow: hidden; position: relative; min-height: 220px; display: grid; place-items: center; padding: 34px; }
+  .tile.bdr { border: 1px solid var(--line); }
+  .tile img { max-height: 100%; }
+  .cap { display: flex; justify-content: space-between; gap: 12px; font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-top: 10px; }
+  .cap a { color: var(--blue); text-decoration: none; }
+  .ink .cap, .blue .cap { color: var(--on-ink); }
+  .idea { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 50px; align-items: center; }
+  .idea .big { background: var(--paper); border: 1px solid var(--line); border-radius: 28px; padding: 60px; position: relative; }
+  .idea ol { list-style: none; padding: 0; margin: 0; display: grid; gap: 22px; counter-reset: i; }
+  .idea li { display: grid; grid-template-columns: 44px 1fr; gap: 14px; }
+  .idea li::before { counter-increment: i; content: "0" counter(i); font-family: var(--mono); font-size: 13px; color: var(--blue); padding-top: 4px; }
+  .idea li b { display: block; font-size: 19px; margin-bottom: 4px; }
+  .idea li span { color: var(--muted); }
+  @media (max-width: 900px) { .idea { grid-template-columns: 1fr; } .idea .big { padding: 30px; } }
+  .sw { border-radius: 22px; padding: 22px; min-height: 230px; display: flex; flex-direction: column; justify-content: space-between; }
+  .sw .n { font-family: var(--display); font-weight: 800;  font-size: 28px; letter-spacing: -.02em; }
+  .sw .v { font-family: var(--mono); font-size: 13px; line-height: 1.7; }
+  .sw .use { font-size: 14px; opacity: .8; margin-top: 8px; }
+  .ratio { display: flex; height: 18px; border-radius: 9px; overflow: hidden; margin-top: 18px; }
+  .type-spec { display: grid; gap: 30px; }
+  .type-row { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 30px; align-items: baseline; padding: 26px 0; border-top: 1px solid var(--line); }
+  .type-row .meta { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); line-height: 1.7; }
+  @media (max-width: 760px) { .type-row { grid-template-columns: 1fr; gap: 10px; } }
+  .rules { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .rule { border-radius: 20px; padding: 24px; border: 1px solid var(--line); background: var(--paper); }
+  .rule h3 { font-size: 20px; margin-bottom: 12px; }
+  .rule ul { margin: 0; padding-left: 18px; color: var(--muted); display: grid; gap: 6px; font-size: 16px; }
+  .rule.no h3 { color: #C42B1C; }
+  @media (max-width: 760px) { .rules { grid-template-columns: 1fr; } }
+  .voice { display: grid; gap: 0; border-top: 1px solid var(--line-ink); }
+  .voice div { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 30px; padding: 26px 0; border-bottom: 1px solid var(--line-ink); align-items: baseline; }
+  .voice .say { font-family: var(--display); font-weight: 800;  letter-spacing: -.03em; font-size: clamp(26px, 3vw, 42px); line-height: 1; }
+  .voice .why { color: var(--on-ink); font-size: 16px; }
+  @media (max-width: 760px) { .voice div { grid-template-columns: 1fr; gap: 8px; } }
+  .dl { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .dl a { display: block; border-radius: 18px; background: var(--white); color: var(--ink); padding: 20px 22px; text-decoration: none; transition: transform .25s var(--ease); }
+  .dl a:hover { transform: translateY(-3px); }
+  .dl b { display: block; font-size: 17px; margin-bottom: 4px; }
+  .dl span { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+  @media (max-width: 900px) { .dl { grid-template-columns: 1fr; } }
+  .img-cover { width: 100%; height: 100%; object-fit: cover; border-radius: 22px; display: block; }
+</style>
+</head>
+<body>
+<header class="bk-hdr">
+  <div class="wrap">
+    <a href="../"><img src="logo/appbacked-lockup.svg" alt="AppBacked" width="150" height="28"></a>
+    <nav><a href="#idea">Idea</a><a href="#logo">Logo</a><a href="#color">Colour</a><a href="#type">Type</a><a href="#3d">3D</a><a href="#backgrounds">Backgrounds</a><a href="#social">Social</a><a href="#voice">Voice</a><a href="#files">Files</a></nav>
+  </div>
+</header>
+
+<section class="cover blue grain">
+  <div>
+    <p class="eyebrow"><span class="dot"></span>Brand kit · v1 · October 2026</p>
+    <h1>An app,<br><em>backed.</em></h1>
+    <p>The identity for AppBacked: our money and our growth team, behind apps that already earn. One idea, used everywhere: your app in front, our money behind it.</p>
+  </div>
+  <img src="renders/mark3d-for-blue-2400.png" alt="AppBacked mark in 3D: a glossy black app tile with a white coin rising behind it" loading="eager">
+</section>
+
+<section class="sec bone" id="idea">
+  <div class="wrap">
+    <div class="sec-head"><div><p class="eyebrow"><span class="n">01</span> The idea</p><h2>One shape, two meanings.</h2></div><p class="lead">The mark is the business model drawn as simply as possible. It survives a 16px favicon and a billboard.</p></div>
+    <div class="idea">
+      <div class="big"><img src="logo/appbacked-mark.svg" alt="AppBacked mark" style="width:100%;max-width:440px;margin:0 auto"></div>
+      <ol>
+        <li><div><b>The app</b><span>An iOS-style squircle in ink. It stands for the developer's product, always in front.</span></div></li>
+        <li><div><b>The coin</b><span>A coin rising behind the top-right corner. It is the backing: capital that supports the app without taking its place.</span></div></li>
+        <li><div><b>The badge</b><span>A circle on an app's top-right corner is also the notification badge everyone taps. Attention, by design.</span></div></li>
+        <li><div><b>The gap</b><span>A clean cut separates app and coin. We stand behind you; we don't merge with you. Ownership stays yours.</span></div></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="sec paper" id="logo">
+  <div class="wrap">
+    <div class="sec-head"><div><p class="eyebrow"><span class="n">02</span> Logo system</p><h2>Lockups.</h2></div><p class="lead">Lowercase wordmark set in Funnel Display ExtraBold, outlined. The coin takes the field's contrast colour: blue on light, white on blue.</p></div>
+    <div class="kgrid k3">
+      <div><div class="tile bone bdr" style="min-height:240px"><img src="logo/appbacked-lockup.svg" alt="Lockup on light" style="width:80%"></div><div class="cap"><span>Primary · on light</span><a href="logo/appbacked-lockup.svg" download>SVG</a></div></div>
+      <div><div class="tile blue" style="min-height:240px"><img src="logo/appbacked-lockup-on-blue.svg" alt="Lockup on blue" style="width:80%"></div><div class="cap"><span>On Backed Blue</span><a href="logo/appbacked-lockup-on-blue.svg" download>SVG</a></div></div>
+      <div><div class="tile ink" style="min-height:240px"><img src="logo/appbacked-lockup-on-ink.svg" alt="Lockup on ink" style="width:80%"></div><div class="cap"><span>On Ink</span><a href="logo/appbacked-lockup-on-ink.svg" download>SVG</a></div></div>
+      <div><div class="tile bone bdr"><img src="logo/appbacked-lockup-stacked.svg" alt="Stacked lockup" style="width:52%"></div><div class="cap"><span>Stacked</span><a href="logo/appbacked-lockup-stacked.svg" download>SVG</a></div></div>
+      <div><div class="tile bone bdr"><img src="logo/appbacked-mark.svg" alt="Mark" style="width:40%"></div><div class="cap"><span>Mark</span><a href="logo/appbacked-mark.svg" download>SVG</a></div></div>
+      <div><div class="tile bone bdr" style="gap:18px;grid-auto-flow:column"><img src="logo/appbacked-app-icon-rounded.svg" alt="App icon" style="width:96px"><img src="logo/favicon.svg" alt="Favicon 32" style="width:32px"><img src="logo/favicon.svg" alt="Favicon 16" style="width:16px"></div><div class="cap"><span>App icon · favicon</span><a href="png/app-icon-1024.png" download>PNG</a></div></div>
+      <div><div class="tile blue"><img src="logo/appbacked-mark-on-blue.svg" alt="Mark on blue" style="width:40%"></div><div class="cap"><span>Mark on blue</span><a href="logo/appbacked-mark-on-blue.svg" download>SVG</a></div></div>
+      <div><div class="tile bone bdr"><img src="logo/appbacked-mark-ink.svg" alt="One-colour mark" style="width:40%"></div><div class="cap"><span>One colour</span><a href="logo/appbacked-mark-ink.svg" download>SVG</a></div></div>
+      <div><div class="tile bone bdr"><img src="logo/appbacked-wordmark.svg" alt="Wordmark" style="width:80%"></div><div class="cap"><span>Wordmark</span><a href="logo/appbacked-wordmark.svg" download>SVG</a></div></div>
+    </div>
+    <div class="rules" style="margin-top:28px">
+      <div class="rule"><h3>Do</h3><ul><li>Clear space around the logo equals the coin's radius.</li><li>Minimum size: mark 16px, lockup 96px wide.</li><li>Put the coin in the field's contrast colour.</li><li>Use the outlined files. Never retype the wordmark.</li></ul></div>
+      <div class="rule no"><h3>Don't</h3><ul><li>Recolour the coin lime or gradient it.</li><li>Rotate, outline, add shadows or glow to the flat mark.</li><li>Move the coin to another corner or close the gap.</li><li>Put the ink app on a dark field. Use the on-ink version.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec bone" id="color">
+  <div class="wrap">
+    <div class="sec-head"><div><p class="eyebrow"><span class="n">03</span> Colour</p><h2>Flat fields, no glow.</h2></div><p class="lead">Large flat areas of Backed Blue, Ink and Bone, with grain instead of gradients. Signal lime is a highlighter, not a colour scheme.</p></div>
+    <div class="kgrid k4">
+      <div class="sw blue grain"><div class="n">Backed Blue</div><div><div class="v">#2230E6<br>RGB 34 48 230<br>Deep #141C9E</div><div class="use">Hero fields, money figures, primary brand moments.</div></div></div>
+      <div class="sw ink"><div class="n">Ink</div><div><div class="v">#0D0D12<br>RGB 13 13 18</div><div class="use">The app tile, type, dark sections, footer.</div></div></div>
+      <div class="sw" style="background:var(--bone);border:1px solid var(--line)"><div class="n">Bone</div><div><div class="v">#F3EFE7<br>Paper #FBFAF6</div><div class="use">Reading surfaces, documents, forms.</div></div></div>
+      <div class="sw" style="background:var(--lime)"><div class="n">Signal</div><div><div class="v">#D9FF3D<br>RGB 217 255 61</div><div class="use">Primary buttons, "approved" and "done" states. Nothing else.</div></div></div>
+    </div>
+    <div class="ratio" aria-label="Colour ratio"><span style="flex:45;background:var(--blue)"></span><span style="flex:30;background:var(--bone);border:1px solid var(--line)"></span><span style="flex:20;background:var(--ink)"></span><span style="flex:5;background:var(--lime)"></span></div>
+    <div class="cap"><span>Roughly 45 blue · 30 bone · 20 ink · 5 signal</span><span>White text on blue: 8:1 · Ink on lime: 17:1</span></div>
+  </div>
+</section>
+
+<section class="sec paper" id="type">
+  <div class="wrap">
+    <div class="sec-head"><div><p class="eyebrow"><span class="n">04</span> Type</p><h2>Wide, then plain.</h2></div><p class="lead">Funnel Display was drawn for a growth company: look at the cut terminals on s, e and p. Funnel Sans reads, IBM Plex Mono counts.</p></div>
+    <div class="type-spec">
+      <div class="type-row"><div class="meta">Display<br>Funnel Display 800<br>Tracking −3.5%</div><div class="display" style="font-size:clamp(44px,6vw,92px)">We spend. You grow.</div></div>
+      <div class="type-row"><div class="meta">Body<br>Funnel Sans 400–600</div><p style="font-size:20px;max-width:56ch">We put our own money and growth team behind your app. Today's revenue stays 100% yours. We share only what we add, 50/50, for 24 months.</p></div>
+      <div class="type-row"><div class="meta">Numbers &amp; labels<br>IBM Plex Mono 500<br>Tabular, uppercase labels</div><div><div class="mono" style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Your extra by month 24</div><div class="mono" style="font-size:44px;font-weight:600;letter-spacing:-.02em">$69,360</div></div></div>
+      <div class="type-row"><div class="meta">Big money<br>Funnel Display 800<br>Tabular figures</div><div style="font-family:var(--display);font-weight:800;font-variant-numeric:tabular-nums;font-size:clamp(56px,8vw,120px);letter-spacing:-.045em;line-height:.9;color:var(--blue)">$48,000</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec blue grain" id="3d">
+  <div class="wrap">
+    <div class="sec-head"><div><p class="eyebrow"><span class="n">05</span> The mark in 3D</p><h2>Product shots, not glow.</h2></div><p class="lead">A glossy ceramic app tile and a coin with a raised rim, lit like a studio product shot. On the site the tile flips to show the visitor's own app icon.</p></div>
+    <div class="kgrid k3">
+      <div><div class="tile" style="background:var(--blue);padding:0;min-height:0;box-shadow:inset 0 0 0 1px var(--line-blue)"><img src="renders/mark3d-for-blue-2400.png" alt="3D mark for blue fields" loading="lazy"></div><div class="cap"><span>For blue</span><a href="renders/mark3d-for-blue-2400.png" download>PNG 2400</a></div></div>
+      <div><div class="tile" style="background:var(--bone);padding:0;min-height:0"><img src="renders/mark3d-for-light-2400.png" alt="3D mark for light fields" loading="lazy"></div><div class="cap"><span>For light</span><a href="renders/mark3d-for-light-2400.png" download>PNG 2400</a></div></div>
+      <div><div class="tile" style="background:var(--ink);padding:0;min-height:0"><img src="renders/mark3d-for-dark-2400.png" alt="3D mark for dark fields" loading="lazy"></div><div class="cap"><span>For dark</span><a href="renders/mark3d-for-dark-2400.png" download>PNG 2400</a></div></div>
+    </div>
+    <p class="cap" style="margin-top:18px"><span>Transparent PNGs with the soft shadow baked in. Live version: assets/backed3d.js (three.js r160).</span></p>
+  </div>
+</section>
+
+<section class="sec bone" id="backgrounds">
+  <div class="wrap">
+    <div class="sec-head"><div><p class="eyebrow"><span class="n">06</span> Backgrounds</p><h2>Wallpapers and slides.</h2></div><p class="lead">For decks, video calls, event screens and phone lock screens. All with the same grain.</p></div>
+    <div class="kgrid k3">
+      <div><img class="img-cover" src="backgrounds/wallpaper-blue-2560x1440.png" alt="Blue wallpaper" loading="lazy"><div class="cap"><span>Blue · 2560×1440</span><a href="backgrounds/wallpaper-blue-2560x1440.png" download>PNG</a></div></div>
+      <div><img class="img-cover" src="backgrounds/wallpaper-bone-2560x1440.png" alt="Bone wallpaper" loading="lazy"><div class="cap"><span>Bone · 2560×1440</span><a href="backgrounds/wallpaper-bone-2560x1440.png" download>PNG</a></div></div>
+      <div><img class="img-cover" src="backgrounds/wallpaper-ink-2560x1440.png" alt="Ink wallpaper" loading="lazy"><div class="cap"><span>Ink · 2560×1440</span><a href="backgrounds/wallpaper-ink-2560x1440.png" download>PNG</a></div></div>
+      <div><img class="img-cover" src="backgrounds/slide-title-1920x1080.png" alt="Title slide" loading="lazy"><div class="cap"><span>Title slide · 1920×1080</span><a href="backgrounds/slide-title-1920x1080.png" download>PNG</a></div></div>
+      <div><img class="img-cover" src="backgrounds/slide-content-1920x1080.png" alt="Content slide" loading="lazy"><div class="cap"><span>Content slide · 1920×1080</span><a href="backgrounds/slide-content-1920x1080.png" download>PNG</a></div></div>
+      <div><img class="img-cover" src="backgrounds/pattern-blue-1600.png" alt="Mark pattern" loading="lazy" style="aspect-ratio:16/9"><div class="cap"><span>Pattern · 1600 tile</span><a href="backgrounds/pattern-blue-1600.png" download>PNG</a></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec paper" id="social">
+  <div class="wrap">
+    <div class="sec-head"><div><p class="eyebrow"><span class="n">07</span> Social</p><h2>Shareable by default.</h2></div><p class="lead">Link preview, X header and avatars. The avatar holds up in a 40px circle in Telegram.</p></div>
+    <div class="kgrid k2">
+      <div><img class="img-cover" src="social/og.png" alt="Link preview image" loading="lazy"><div class="cap"><span>Link preview · 1200×630</span><a href="social/og.png" download>PNG</a></div></div>
+      <div><img class="img-cover" src="social/x-header.png" alt="X header" loading="lazy" style="aspect-ratio:1200/630"><div class="cap"><span>X / LinkedIn header · 1500×500</span><a href="social/x-header.png" download>PNG</a></div></div>
+    </div>
+    <div class="kgrid k4" style="margin-top:16px">
+      <div><img class="img-cover" src="social/avatar-3d.png" alt="3D avatar" loading="lazy" style="border-radius:50%"><div class="cap"><span>Avatar 3D</span><a href="social/avatar-3d.png" download>PNG</a></div></div>
+      <div><img class="img-cover" src="social/avatar-flat.png" alt="Flat avatar" loading="lazy" style="border-radius:50%"><div class="cap"><span>Avatar flat</span><a href="social/avatar-flat.png" download>PNG</a></div></div>
+      <div><img class="img-cover" src="backgrounds/phone-blue-1170x2532.png" alt="Phone wallpaper" loading="lazy" style="aspect-ratio:1/1;object-position:50% 70%"><div class="cap"><span>Phone · 1170×2532</span><a href="backgrounds/phone-blue-1170x2532.png" download>PNG</a></div></div>
+      <div><div class="tile blue grain" style="aspect-ratio:1;min-height:0"><img src="logo/appbacked-seal-on-blue.svg" alt="Backed by AppBacked badge" style="width:86%"></div><div class="cap"><span>Badge for funded apps</span><a href="logo/appbacked-seal-solid.svg" download>SVG</a></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec ink" id="voice">
+  <div class="wrap">
+    <div class="sec-head"><div><p class="eyebrow"><span class="n">08</span> Voice</p><h2>Short. Specific. Unafraid.</h2></div><p class="lead">Numbers before adjectives. Say the catch before the reader finds it. Never promise rankings.</p></div>
+    <div class="voice">
+      <div><span class="say">We spend. You grow.</span><span class="why">The offer in four words. Always followed by who keeps what.</span></div>
+      <div><span class="say">We split the difference.</span><span class="why">The idiom and the deal in one line: half of what we add, nothing of what you had.</span></div>
+      <div><span class="say">That's our risk, not yours.</span><span class="why">Say what happens when it fails. It is the most persuasive line on the page.</span></div>
+      <div><span class="say">Money is fuel. The team is the engine.</span><span class="why">The growth team is the moat. Say it plainly, without hype words.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec bone" id="files">
+  <div class="wrap">
+    <div class="sec-head"><div><p class="eyebrow"><span class="n">09</span> Files</p><h2>Everything, in one place.</h2></div><p class="lead">SVG for anything printed or scaled, PNG for decks and socials. Fonts are free on Google Fonts.</p></div>
+    <div class="dl">
+      <a href="zip/appbacked-brand-kit.zip" download style="background:var(--lime)"><b>Everything · ZIP</b><span>logos, renders, backgrounds, social</span></a>
+      <a href="zip/logo-svg.zip" download><b>Logo · SVG</b><span>21 files, outlined text</span></a>
+      <a href="zip/logo-png.zip" download><b>Logo · PNG</b><span>icons, lockups, badge</span></a>
+      <a href="zip/renders-3d.zip" download><b>3D renders</b><span>transparent, 2400px</span></a>
+      <a href="zip/backgrounds.zip" download><b>Backgrounds</b><span>wallpapers, slides, pattern</span></a>
+      <a href="zip/social.zip" download><b>Social</b><span>link preview, header, avatars</span></a>
+    </div>
+    <p class="cap" style="margin-top:18px"><span>Fonts: Funnel Display, Funnel Sans and IBM Plex Mono, free on Google Fonts (OFL).</span></p>
+  </div>
+</section>
+
+<footer class="ftr ink"><div class="wrap"><div class="legal" style="border:0;padding:0"><span>AppBacked brand kit v1 · 2026</span><a href="../">Back to the site →</a></div><img class="giant" src="logo/appbacked-wordmark-white.svg" alt="" aria-hidden="true"></div></footer>
+</body>
+</html>

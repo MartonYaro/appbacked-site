@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AppBacked: we spend, you grow, we split the difference</title>
+<meta name="description" content="AppBacked puts its own money and growth team behind apps that already earn. You pay nothing upfront, keep 100% of today's revenue, and we split only what we add.">
+<link rel="canonical" href="https://appbacked.com/">
+<meta name="theme-color" content="#2230E6">
+<link rel="icon" href="./brand/logo/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="./brand/png/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="./brand/png/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AppBacked">
+<meta property="og:title" content="We spend. You grow. We split the difference.">
+<meta property="og:description" content="AppBacked puts its own money and growth team behind apps that already earn. You pay nothing upfront, keep 100% of today's revenue, and we split only what we add.">
+<meta property="og:url" content="https://appbacked.com/">
+<meta property="og:image" content="https://appbacked.com/brand/social/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&family=Funnel+Sans:wght@300..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="./assets/site.css">
+<script>document.documentElement.classList.add('js')</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<!-- Built from src/ by tools/build-site.cjs. Edit the source, not this file. -->
+</head>
+<body class="home">
+<a class="skip" href="#top">Skip to content</a>
+<header class="hdr" id="hdr">
+  <div class="wrap">
+    <a class="logo" href="./" aria-label="AppBacked home"><img src="./brand/logo/appbacked-lockup-on-blue.svg" alt="AppBacked" width="190" height="34"></a>
+    <nav aria-label="Main">
+      <a href="./how-it-works/">How it works</a>
+      <a href="./calculator/">Calculator</a>
+      <a href="./growth-team/">Growth team</a>
+      <a href="./faq/">FAQ</a>
+      <a href="./about/">About</a>
+    </nav>
+    <div class="hdr-r">
+      <a class="btn sm" href="#top" data-focus-paste>X-ray my app <span class="arr">→</span></a>
+      <button class="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="menu blue grain" id="menu" hidden>
+  <nav aria-label="Menu">
+    <a href="./">Home</a>
+    <a href="./how-it-works/">How it works</a>
+    <a href="./calculator/">Calculator</a>
+    <a href="./growth-team/">Growth team</a>
+    <a href="./faq/">FAQ</a>
+    <a href="./about/">About</a>
+    <a href="./badge/">The badge</a>
+  </nav>
+  <a class="btn" href="./apply/">Apply in 2 minutes <span class="arr">→</span></a>
+</div>
+
+<main id="top">
+<!-- ============ HERO ============ -->
+<section class="hero blue grain" aria-labelledby="h1">
+  <div class="wrap">
+    <div class="hero-copy">
+      <p class="eyebrow"><span class="dot"></span>Growth capital for apps that already earn</p>
+      <h1 id="h1">
+        <span class="ln-in"><span>We spend.</span></span>
+        <span class="ln-in"><span>You grow.</span></span>
+        <span class="kicker">We split the difference.</span>
+      </h1>
+      <p class="lead">We put <b>our own money and growth team</b> behind your app: store pages, creatives, paid users, paywalls. Today's revenue stays 100% yours. We share only what we add.</p>
+      <form class="paste" id="paste" autocomplete="off">
+        <label for="paste-in" class="hp">App Store or Google Play link</label>
+        <input id="paste-in" name="link" type="text" inputmode="url" placeholder="Paste your App Store link or app name" aria-describedby="paste-note">
+        <button class="btn" type="submit">X-ray my app <span class="arr">→</span></button>
+      </form>
+      <p class="paste-note" id="paste-note">Free. 10 seconds. We only read your public store page.</p>
+      <div class="xray" id="xray" hidden aria-live="polite">
+        <i class="scan" aria-hidden="true"></i>
+        <div class="xh"><span>Growth X-ray · <b id="xray-name">Your app</b></span><span class="pill" id="xray-score">Upside</span></div>
+        <ul id="xray-list"></ul>
+      </div>
+      <div class="trust" aria-label="Key terms">
+        <span>$0 upfront</span><span>First month on us</span><span>Today's revenue stays yours</span><span>No equity</span>
+      </div>
+    </div>
+
+    <div class="hero-stage" aria-label="Your growth budget">
+      <div class="stage3d" id="stage3d" aria-hidden="true" data-backed3d='{"coin":"ceramic","distance":8.6,"pose":{"ry":-0.36,"rx":0.14}}'><img class="fallback" src="./assets/hero-fallback.png" alt=""></div>
+      <div class="offer" id="offer">
+        <div class="offer-h"><span>Your growth budget</span><span class="chip">Estimate</span></div>
+        <div class="offer-app">
+          <div class="ic" id="offer-ic" data-app-icon><svg viewBox="0 0 26 26" aria-hidden="true"><rect x="2" y="2" width="22" height="22" rx="6" fill="none" stroke="#ffffff" stroke-opacity=".5" stroke-width="1.6" stroke-dasharray="3 3"/></svg></div>
+          <div><div class="nm" data-app-name>Your app</div><div class="sub" data-app-sub>Paste a link to put it here</div></div>
+        </div>
+        <div class="budget-k">We'd put up to</div>
+        <div class="offer-num" id="offer-num" data-money="budget">$48,000</div>
+        <div class="offer-line">of our money behind it. You put in $0.</div>
+        <div class="terms3"><span><b>$0</b>upfront</span><span><b>50/50</b>on growth</span><span><b>24 mo</b>then 100% yours</span></div>
+        <div class="range">
+          <label for="offer-r">Monthly net revenue <b id="offer-r-out">$8,000</b></label>
+          <input id="offer-r" type="range" min="1000" max="100000" step="500" value="8000">
+        </div>
+        <a class="btn" href="#apply" id="offer-cta">Get my growth plan <span class="arr">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MARQUEE ============ -->
+<div class="marquee ink" aria-hidden="true">
+  <div class="track">
+    <div class="item">$0 upfront <i></i> First month on us <i></i> Today's revenue stays yours <i></i> 50/50 on what we add <i></i> 24 months, then 100% yours <i></i> You keep the users <i></i> No equity <i></i></div>
+    <div class="item">$0 upfront <i></i> First month on us <i></i> Today's revenue stays yours <i></i> 50/50 on what we add <i></i> 24 months, then 100% yours <i></i> You keep the users <i></i> No equity <i></i></div>
+  </div>
+</div>
+
+<!-- ============ THE USUAL OPTIONS ============ -->
+<section class="sec bone" aria-labelledby="h-usual">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow"><span class="n">01</span> The usual options</p>
+        <h2 id="h-usual">Everyone wants a piece.</h2>
+      </div>
+      <p class="lead">Your app pays the bills. Growing it takes money and people you don't have yet. Here is what that usually costs.</p>
+    </div>
+    <ul class="enemies">
+      <li class="no rv"><span class="k">Agency</span><span class="t"><span class="s">Agencies want $5,000 a month.</span></span><span class="tag">Win or lose</span></li>
+      <li class="no rv"><span class="k">VC</span><span class="t"><span class="s">VCs want 20% of your company.</span></span><span class="tag">Forever</span></li>
+      <li class="no rv"><span class="k">Lender</span><span class="t"><span class="s">Lenders want it back, with interest.</span></span><span class="tag">Every month</span></li>
+      <li class="yes rv"><span class="k">Us</span><span class="t">We want half of what we add.</span><span class="tag">For 24 months</span></li>
+    </ul>
+    <div class="enemy-foot"><span></span><p>Our money goes into your growth, not your bank account. If your app doesn't grow, we don't get paid. That's the whole idea.</p></div>
+  </div>
+</section>
+
+<!-- ============ THE MATH ============ -->
+<section class="sec blue grain" id="math" aria-labelledby="h-math">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow"><span class="n">02</span> The math, in public</p>
+        <h2 id="h-math">Run your numbers.</h2>
+      </div>
+      <p class="lead">Set your revenue, pick a scenario. You see our budget, your extra income and our share. Including the scenario where we lose.</p>
+    </div>
+
+    <div class="calc">
+      <div class="controls" id="controls">
+        <div class="range">
+          <label for="c-r">Monthly net revenue today <b id="c-r-out">$8,000</b></label>
+          <input id="c-r" type="range" min="1000" max="100000" step="500" value="8000">
+        </div>
+        <div>
+          <div class="ctl-label">How growth goes</div>
+          <div class="seg" role="group" aria-label="Scenario">
+            <button type="button" data-sc="cautious" aria-pressed="false">Cautious</button>
+            <button type="button" data-sc="base" aria-pressed="true">Base</button>
+            <button type="button" data-sc="strong" aria-pressed="false">Strong</button>
+          </div>
+          <p class="ctl-hint" id="sc-hint">What we plan for: ads pay back in about a year, fixes lift today’s revenue by a quarter.</p>
+        </div>
+        <div class="checks" style="grid-template-columns:1fr;gap:0">
+          <div style="padding:16px 18px;border-radius:16px"><ul style="gap:8px;font-size:15px">
+            <li>First month is a test, on us.</li>
+            <li>Budget goes to ads, creatives and store work. Never to you, never from you.</li>
+            <li>Revenue above your 3-month average: 50/50.</li>
+          </ul></div>
+        </div>
+      </div>
+
+      <div class="results">
+        <div class="big-out">
+          <div class="k">We put in</div>
+          <div class="v" data-money="budget">$48,000</div>
+        </div>
+        <div class="outs">
+          <div><div class="k">You put in</div><div class="v">$0</div></div>
+          <div><div class="k">Your extra by month 24</div><div class="v" data-money="yours">$69,000</div></div>
+          <div><div class="k">Your revenue, month 24</div><div class="v"><span data-out="rev24">$10,500</span><small style="font-size:.55em;opacity:.7"> <span data-out="mult">×1.31</span></small></div></div>
+        </div>
+        <div>
+          <div class="chart" id="chart" role="img" aria-label="Monthly revenue over 30 months: today's revenue, your growth, our share"></div>
+          <div class="chart-legend"><span><i style="background:rgba(255,255,255,.28)"></i>Today's revenue, yours</span><span><i style="background:#fff"></i>Growth, yours</span><span><i style="background:#0D0D12"></i>Growth, ours</span><span><i style="background:#D9FF3D"></i>After month 24, all yours</span></div>
+        </div>
+        <p class="verdict" id="verdict">We earn back our $48,000 in month 13. By month 24 you've made <b>$69,360 you didn't have</b>, and the users we paid for keep paying you after we leave.</p>
+        <div class="calc-foot">
+          <span>Illustrative model, not a forecast or an offer. Your real plan follows a look at your reports.</span>
+          <span style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn white sm" href="./calculator/">Make a share card</a><button class="btn ghost sm" type="button" id="share">Copy link to this estimate</button></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ THE DEAL ============ -->
+<section class="sec bone" id="deal" aria-labelledby="h-deal">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow"><span class="n">03</span> The deal</p>
+        <h2 id="h-deal">Four numbers. No fine print.</h2>
+      </div>
+      <p class="lead">This is the whole agreement. Everything else is how we grow your app.</p>
+    </div>
+    <div class="nums">
+      <div class="rv"><b>100%</b><span>of today's revenue stays yours. Always.</span></div>
+      <div class="rv"><b>$0</b><span>you put in. No fees, no repayments, no equity.</span></div>
+      <div class="rv"><b>50/50</b><span>on revenue above your 3-month average.</span></div>
+      <div class="rv"><b>24</b><span>months. Then all of it is yours, users included.</span></div>
+    </div>
+    <a class="more" href="./how-it-works/">How the money flows <span class="arr">→</span></a>
+  </div>
+</section>
+
+<!-- ============ GROWTH TEAM ============ -->
+<section class="sec ink" id="team" aria-labelledby="h-team">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow"><span class="n">04</span> Where the money goes</p>
+        <h2 id="h-team">Money is fuel. The team is the engine.</h2>
+      </div>
+      <p class="lead">Utility and subscription apps grow mostly through the store page and the paywall. That's where we start. Paid users come when the numbers say so.</p>
+    </div>
+    <div class="team">
+      <div class="rv"><span class="n">01</span><h3>Store pages that convert</h3><p>Keywords, screenshots, video and localization into the markets that already find you.</p></div>
+      <div class="rv"><span class="n">02</span><h3>Paywall and pricing</h3><p>Trials, offers, country pricing and paywall tests. Often the fastest money in the app.</p></div>
+      <div class="rv"><span class="n">03</span><h3>Creatives and paid users</h3><p>Meta, TikTok, Google and Apple Search Ads. Budgets sized to payback, with stop rules.</p></div>
+      <div class="rv"><span class="n">04</span><h3>Statements you can read</h3><p>Every month: revenue, baseline, growth, our share, our spend. One page.</p></div>
+    </div>
+    <a class="more" href="./growth-team/" style="color:var(--lime)">Meet the growth team <span class="arr">→</span></a>
+  </div>
+</section>
+
+<!-- ============ HOW ============ -->
+<section class="sec paper" id="how" aria-labelledby="h-how">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow"><span class="n">05</span> How it works</p>
+        <h2 id="h-how">Test first. Scale what works.</h2>
+      </div>
+      <p class="lead">No pitch deck, no board seat. If the first month doesn't work, we both walk away.</p>
+    </div>
+    <ol class="steps">
+      <li class="rv"><span class="bar"></span><div><span class="when">10 seconds</span><h3>X-ray your app</h3><p>Paste your store link. See where the growth is hiding.</p></div></li>
+      <li class="rv"><span class="bar"></span><div><span class="when">48 hours</span><h3>Get a growth plan</h3><p>Budget, channels and what we fix first, in writing, after a look at your reports.</p></div></li>
+      <li class="rv"><span class="bar"></span><div><span class="when">Month 1</span><h3>Test, on us</h3><p>Store page, paywall and small paid tests. Don't like it? Walk away. You owe nothing.</p></div></li>
+      <li class="rv"><span class="bar"></span><div><span class="when">Months 2–24</span><h3>Scale and split</h3><p>We scale what pays back. Growth above your baseline is split 50/50, with a statement every month.</p></div></li>
+      <li class="rv"><span class="bar"></span><div><span class="when">Month 25</span><h3>All yours</h3><p>We step away. The revenue and every user we paid for stay with you.</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ BADGE ============ -->
+<section class="sec blue grain badge-sec" aria-labelledby="h-badge">
+  <div class="wrap">
+    <div class="seal rv" aria-hidden="true">
+      <img class="ring" src="./brand/logo/appbacked-seal-ring-white.svg" alt="">
+      <img class="mk" src="./brand/logo/appbacked-mark-on-blue.svg" alt="">
+    </div>
+    <div class="badge-copy">
+      <p class="eyebrow"><span class="n">06</span> The badge</p>
+      <h2 id="h-badge">Backed apps wear it.</h2>
+      <p class="lead">Apps we back get the AppBacked badge for their website, press kit and launch posts. It tells users, partners and your next investor that someone did the homework and bet real money on you.</p>
+      <span style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn" href="#apply">Get backed <span class="arr">→</span></a><a class="btn ghost" href="./badge/">About the badge</a></span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="sec bone" id="faq" aria-labelledby="h-faq">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow"><span class="n">07</span> Straight answers</p>
+        <h2 id="h-faq">Fair questions.</h2>
+      </div>
+      <p class="lead">The things we'd ask before letting someone touch our app. Answered before you have to.</p>
+    </div>
+    <div class="faq-list">
+      <details><summary>What's the catch?</summary><p>We take half of the revenue we add above your baseline, for 24 months. That's it. If we add nothing, we get nothing, and we've spent our own money finding that out.</p></details>
+      <details><summary>Do you send me money?</summary><p>No. Our budget goes straight into growing your app: ads, creatives, store pages and paywall work. You never receive it and you never repay it.</p></details>
+      <details><summary>How is the baseline set?</summary><p>Your average net store revenue over the three full months before we start. Everything up to it stays yours. If a month comes in below it, our share that month is zero.</p></details>
+      <details><summary>What if it doesn't work?</summary><p>After the first month either side can walk away and nobody owes anything. Later, we stop spending on anything that doesn't pay back. The loss is ours.</p></details>
+      <details><summary>Do I give up ownership?</summary><p>Never. Your company, code, brand, users and IP stay yours. Ad accounts and creatives are built in your name.</p></details>
+      <details><summary>Which apps are a fit?</summary><p>Live on the App Store or Google Play, with subscriptions, in-app purchases or ads already working, from $1,000 a month and six months of history. Utilities, health, productivity, education, photo, finance and more. Not a fit: hypercasual games and apps without monetization.</p></details>
+      <a class="more" href="./faq/">All questions <span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ APPLY ============ -->
+<section class="sec blue grain apply" id="apply" aria-labelledby="h-apply">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow"><span class="dot"></span>Founding cohort is open</p>
+      <h2 id="h-apply">Get your growth plan in 48 hours.</h2>
+      <p class="lead">Tell us where your app lives. We come back with a budget, a plan and what we'd fix first. Or a straight no, with the reason.</p>
+    </div>
+    <form class="form" id="apply-form" data-endpoint="" novalidate>
+      <div class="field" id="f-link"><label for="a-link">App Store or Google Play link</label><input id="a-link" name="link" type="url" placeholder="https://apps.apple.com/…" required><div class="err">Paste a link to apps.apple.com or play.google.com</div></div>
+      <div class="row2">
+        <div class="field"><label for="a-platform">Platform</label><select id="a-platform" name="platform"><option>iOS</option><option>Android</option><option>Both</option></select></div>
+        <div class="field"><label for="a-rev">Monthly net revenue</label><select id="a-rev" name="revenue"><option>$1k–3k</option><option>$3k–10k</option><option selected>$10k–30k</option><option>$30k–100k</option><option>$100k+</option></select></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label for="a-focus">Biggest bottleneck</label><select id="a-focus" name="bottleneck"><option>Not enough installs</option><option>Installs don't convert</option><option>Paywall and pricing</option><option>Not sure</option></select></div>
+        <div class="field" id="f-contact"><label for="a-contact">Email or Telegram</label><input id="a-contact" name="contact" type="text" placeholder="you@studio.com or @you" required><div class="err">We need a way to reach you</div></div>
+      </div>
+      <div class="field"><label for="a-msg">Anything else <span style="text-transform:none">(optional)</span></label><textarea id="a-msg" name="message" placeholder="What have you tried so far?"></textarea></div>
+      <div class="hp" aria-hidden="true"><label>Website <input name="website" tabindex="-1" autocomplete="off"></label></div>
+      <input type="hidden" name="estimate" id="a-est">
+      <label class="consent"><input type="checkbox" id="a-ok" required> <span>You can contact me about my growth plan. My data is used only for that. See the <a href="./legal/privacy/">privacy policy</a>.</span></label>
+      <button class="btn" type="submit">Send my app <span class="arr">→</span></button>
+      <p class="send-err" hidden style="color:#C42B1C;font-size:14px">Could not send. Please email hello@appbacked.com</p>
+      <div class="ok" role="status"><h3>Got it.</h3><p style="margin-top:10px;color:var(--muted)">Your growth plan, or a straight no, lands within 48 hours.</p></div>
+    </form>
+  </div>
+</section>
+
+</main>
+<footer class="ftr ink">
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <img src="./brand/logo/appbacked-lockup-on-ink.svg" alt="AppBacked" width="200" height="36">
+        <p class="ftr-tag">Our money and our growth team, behind apps that already earn.</p>
+        <a class="btn sm" href="./apply/">Apply in 2 minutes <span class="arr">→</span></a>
+      </div>
+      <div><h4>Product</h4><ul><li><a href="./how-it-works/">How it works</a></li><li><a href="./calculator/">Calculator</a></li><li><a href="./growth-team/">Growth team</a></li><li><a href="./badge/">The badge</a></li></ul></div>
+      <div><h4>Company</h4><ul><li><a href="./about/">About</a></li><li><a href="./faq/">FAQ</a></li><li><a href="./brand/">Brand kit</a></li><li><a href="mailto:hello@appbacked.com">hello@appbacked.com</a></li></ul></div>
+      <div><h4>Legal</h4><ul><li><a href="./legal/privacy/">Privacy</a></li><li><a href="./legal/terms/">Terms</a></li></ul></div>
+    </div>
+    <div class="legal"><span>© 2026 AppBacked. Operated by [Legal entity], [registered address].</span><span>Estimates on this site are illustrative and are not an offer.</span></div>
+    <img class="giant" src="./brand/logo/appbacked-wordmark-white.svg" alt="" aria-hidden="true" width="1200" height="160">
+  </div>
+</footer>
+
+<div class="dock" id="dock"><span class="mono" id="dock-num">Up to 12× monthly revenue</span><a class="btn sm" href="./calculator/">X-ray my app <span class="arr">→</span></a></div>
+<script src="./assets/site.js" defer></script>
+<script type="module">
+  import { createBacked } from './assets/backed3d.js';
+  document.querySelectorAll('[data-backed3d]').forEach(host => {
+    let api = null;
+    try { api = createBacked(host, JSON.parse(host.dataset.backed3d || '{}')); } catch (e) { api = null; }
+    if (api) { const fb = host.querySelector('.fallback'); if (fb) fb.remove(); if (!window.__backed) window.__backed = api; }
+  });
+  window.dispatchEvent(new Event('backed-ready'));
+</script>
+</body>
+</html>
