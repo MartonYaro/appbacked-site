@@ -355,7 +355,7 @@
       dl.hidden = false;
       const x = $('#card-x');
       if (x) {
-        x.href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(`AppBacked would put ${fmt(compute(st).B)} of growth behind ${st.app ? st.app.name : 'my app'}. $0 upfront, 50/50 on what they add.`) + '&url=' + encodeURIComponent('https://appbacked.com/calculator/');
+        x.href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(`AppBacked would put ${fmt(compute(st).B)} of growth behind ${st.app ? st.app.name : 'my app'}. $0 upfront, a share of the growth only.`) + '&url=' + encodeURIComponent('https://appbacked.com/calculator/');
         x.hidden = false;
       }
     } catch (e) { console.error(e); const n = $('#card-note'); if (n) n.textContent = 'Could not draw the card in this browser.'; }
@@ -395,7 +395,7 @@
     t('APPBACKED WOULD PUT', 64, 232, { mono: true, size: 20, weight: 500, color: 'rgba(255,255,255,.75)' });
     t(fmt(o.B), 56, 336, { size: o.B >= 1e6 ? 84 : 104 });
     t('behind ' + name + '.', 60, 414, { size: name.length > 12 ? 48 : 64, color: '#D9FF3D' });
-    t('$0 UPFRONT · 50/50 ON WHAT WE ADD · THEN 100% YOURS', 64, 530, { mono: true, size: 17, weight: 500, color: 'rgba(255,255,255,.85)' });
+    t('$0 UPFRONT · 50/50 ABOVE YOUR BASELINE · THEN 100% YOURS', 64, 530, { mono: true, size: 17, weight: 500, color: 'rgba(255,255,255,.85)' });
     t('APPBACKED.COM · INDICATIVE ESTIMATE', 64, 574, { mono: true, size: 16, weight: 500, color: 'rgba(255,255,255,.55)' });
     return c.toDataURL('image/png');
   }

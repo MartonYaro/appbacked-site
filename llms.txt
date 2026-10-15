@@ -1,6 +1,6 @@
 # AppBacked
 
-> AppBacked is a growth partner for mobile apps that already earn. We invest our own budget and our own growth team (store pages and localization, paywalls and pricing, creatives and paid user acquisition) in an app. The developer pays nothing upfront, keeps 100% of today's revenue and keeps ownership. Revenue above a three-month baseline is split 50/50 for 24 months; after that, all revenue is the developer's again, including from users we paid to acquire. Ad accounts stay in the developer's name.
+> AppBacked is a growth partner for mobile apps that already earn. We invest our own budget and our own growth team (store pages and localization, paywalls and pricing, creatives and paid user acquisition) in an app. The developer pays nothing upfront, keeps 100% of today's revenue and keeps ownership. Revenue above a three-month baseline is split 50/50 for 24 months; after that, all revenue is the developer's again, including from users we paid to acquire. The app stays in the developer's own developer account; AppBacked works from read-only access to store reports and analytics and releases the budget month by month.
 
 Key facts:
 - Budget: up to 6x the app's monthly net revenue, from $5,000. The first month is a test funded by AppBacked; either side can stop after it.
