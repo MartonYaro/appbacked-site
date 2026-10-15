@@ -1,0 +1,12 @@
+{
+  "name": "appbacked-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AppBacked website (static), served by a zero-dependency Node server on Railway.",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
