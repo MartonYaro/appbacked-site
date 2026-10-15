@@ -142,17 +142,18 @@
     });
     if (el.chart) chart(el.chart, o);
     if (el.verdict) el.verdict.innerHTML = verdictHtml(o);
-    if (el.dock) el.dock.textContent = 'Up to ' + fmt(o.B) + ' of growth';
+    if (el.dock && (el.r || el.hr)) el.dock.textContent = 'Up to ' + fmt(o.B) + ' growth budget';
     $$('[data-apply-url]').forEach(a => { a.href = a.dataset.applyUrl + '?' + stateParams(); });
+    $$('[data-keep-state]').forEach(a => { a.href = a.getAttribute('href').split('?')[0] + '?' + stateParams() + '#share-card'; });
     const est = $('#a-est');
     if (est) est.value = JSON.stringify({ revenue: st.r, budget: o.B, scenario: st.sc, app: st.app && st.app.name });
     const rev = $('#a-rev');
-    if (rev && !rev.dataset.touched) rev.value = st.r < 3000 ? '$1k–3k' : st.r < 10000 ? '$3k–10k' : st.r < 30000 ? '$10k–30k' : st.r < 100000 ? '$30k–100k' : '$100k+';
+    if (rev && !rev.dataset.touched && (q.has('r') || st.touched)) rev.value = st.r < 3000 ? '$1k–3k' : st.r < 10000 ? '$3k–10k' : st.r < 30000 ? '$10k–30k' : st.r < 100000 ? '$30k–100k' : '$100k+';
   }
 
   $$('[data-sc]').forEach(b => b.addEventListener('click', () => { st.sc = b.dataset.sc; render(); }));
-  el.r && el.r.addEventListener('input', () => { st.r = +el.r.value; render(); });
-  el.hr && el.hr.addEventListener('input', () => { st.r = +el.hr.value; render(); });
+  el.r && el.r.addEventListener('input', () => { st.r = +el.r.value; st.touched = true; render(); });
+  el.hr && el.hr.addEventListener('input', () => { st.r = +el.hr.value; st.touched = true; render(); });
   const revSel = $('#a-rev'); revSel && revSel.addEventListener('change', () => { revSel.dataset.touched = '1'; });
 
   const shareBtn = $('#share');
@@ -187,7 +188,7 @@
   async function lookup(raw) {
     const s = raw.trim();
     if (!s) throw new Error('empty');
-    const ios = s.match(/apps\.apple\.com\/(?:([a-z]{2})\/)?.*?id(\d{6,})/i) || (/^\d{6,}$/.test(s) ? [s, 'us', s] : null);
+    const ios = s.match(/(?:apps|itunes)\.apple\.com\/(?:([a-z]{2})\/)?.*?id(\d{6,})/i) || (/^\d{6,}$/.test(s) ? [s, 'us', s] : null);
     if (ios) {
       const cc = (ios[1] || 'us').toLowerCase();
       const r = await fetch(`https://itunes.apple.com/lookup?id=${ios[2]}&country=${cc}`).then(x => x.json());
@@ -197,19 +198,40 @@
     const gp = s.match(/play\.google\.com\/store\/apps\/details\?(?:.*&)?id=([\w.]+)/i) || s.match(/^gp:([\w.]+)$/);
     if (gp) {
       const pkg = gp[1];
-      const nm = pkg.split('.').pop().replace(/[_-]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-      return { id: 'gp:' + pkg, store: 'play', name: nm, sub: 'Google Play · ' + pkg, icon: null, url: `https://play.google.com/store/apps/details?id=${pkg}`, raw: null };
+      return { id: 'gp:' + pkg, store: 'play', name: pkg, sub: 'Google Play · reviewed by hand', icon: null, url: `https://play.google.com/store/apps/details?id=${pkg}`, raw: null };
     }
     if (/^https?:\/\//i.test(s)) throw new Error('badurl');
-    const r = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(s)}&entity=software&limit=1&country=us`).then(x => x.json());
-    if (!r.results || !r.results[0]) throw new Error('notfound');
-    return fromItunes(r.results[0]);
+    const r = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(s)}&entity=software&limit=8&country=us`).then(x => x.json());
+    const res = r.results || [];
+    if (!res.length) throw new Error('notfound');
+    // the search API always returns something; trust it only when the name matches what was typed
+    const norm = t => String(t).toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, ' ').trim();
+    const qn = norm(s), words = qn.split(' ').filter(w => w.length > 1);
+    const fit = a => { const n = norm(a.trackName || ''); return n === qn ? 3 : n.includes(qn) ? 2 : words.length && words.every(w => n.includes(w)) ? 1 : 0; };
+    const ranked = res.map(a => [fit(a), a]).sort((x, y) => y[0] - x[0]);
+    if (ranked[0][0] > 0) return fromItunes(ranked[0][1]);
+    const near = res.filter(a => norm(a.trackName || '').split(' ').some(w => words.some(q => q.length > 2 && w.slice(0, 3) === q.slice(0, 3))));
+    if (!near.length) throw new Error('notfound');
+    const err = new Error('ambiguous');
+    err.candidates = near.slice(0, 3).map(a => ({ id: String(a.trackId), name: a.trackName, icon: a.artworkUrl60 || a.artworkUrl100 }));
+    throw err;
   }
   function fromItunes(a) {
     const rating = a.averageUserRating ? '★ ' + a.averageUserRating.toFixed(1) + ' · ' + ratingsFmt(a.userRatingCount || 0) + ' ratings' : a.primaryGenreName;
     return { id: String(a.trackId), store: 'ios', name: a.trackName, seller: a.sellerName, sub: `${a.sellerName} · ${rating}`, icon: a.artworkUrl512 || a.artworkUrl100, url: a.trackViewUrl && a.trackViewUrl.split('?')[0], genre: a.primaryGenreName, raw: a };
   }
   window.ABLookup = lookup; // shared with assets/audit.js
+  // "Did you mean" buttons under a search field when a name search has no exact match
+  window.ABPick = (noteEl, list, onPick) => {
+    noteEl.classList.remove('err');
+    noteEl.textContent = 'No exact match. Did you mean ';
+    list.forEach(c => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'pick'; b.textContent = c.name;
+      b.addEventListener('click', () => onPick(c.id));
+      noteEl.appendChild(b);
+    });
+  };
 
   // ---------------------------------------------------------------------------
   // Growth X-ray: honest signals from public store data, phrased as levers
@@ -225,11 +247,12 @@
     const shots = (a.screenshotUrls || []).length;
     items.push(shots < 6 ? { up: true, t: `${shots} screenshot${shots === 1 ? '' : 's'}`, d: 'Most top apps show 6 to 10. The gallery sells the install.' }
       : { up: false, t: `${shots} screenshots`, d: 'Full gallery. We would test what the first three say.' });
-    const ipad = (a.supportedDevices || []).some(d => /iPad/i.test(d));
+    const ipad = (a.features || []).includes('iosUniversal');
     if (ipad && !(a.ipadScreenshotUrls || []).length) items.push({ up: true, t: 'No iPad gallery', d: 'Your app runs on iPad, but iPad users see no screenshots.' });
     const days = a.currentVersionReleaseDate ? Math.round((Date.now() - new Date(a.currentVersionReleaseDate)) / 864e5) : null;
-    if (days != null) items.push(days > 120 ? { up: true, t: `Updated ${days} days ago`, d: 'Fresh releases help ranking and conversion. Users notice.' }
-      : { up: false, t: `Updated ${days} day${days === 1 ? '' : 's'} ago`, d: 'Shipping regularly. Good.' });
+    const ago = days === 0 ? 'Updated today' : `Updated ${days} day${days === 1 ? '' : 's'} ago`;
+    if (days != null) items.push(days > 120 ? { up: true, t: ago, d: 'Fresh releases help ranking and conversion. Users notice.' }
+      : { up: false, t: ago, d: 'Shipping regularly. Good.' });
     const r = a.averageUserRating || 0, n = a.userRatingCount || 0;
     if (n < 500) items.push({ up: true, t: `${ratingsFmt(n)} ratings`, d: 'A well-timed review prompt builds the social proof that converts.' });
     else if (r < 4.5) items.push({ up: true, t: `Rated ${r.toFixed(1)}`, d: 'Below 4.5 stars costs installs. Prompt timing and fixes move it.' });
@@ -246,7 +269,7 @@
     const x = xray(app);
     $('#xray-name').textContent = app.name;
     const sc = $('#xray-score');
-    sc.textContent = x.score === 'Manual' ? 'Manual review' : 'Upside: ' + x.score;
+    sc.textContent = x.score === 'Manual' ? 'Manual review' : x.score === 'Low' ? 'Strong page' : 'Upside: ' + x.score;
     sc.dataset.score = x.score.toLowerCase();
     const list = $('#xray-list');
     list.innerHTML = '';
@@ -276,7 +299,7 @@
     const chip = $('#offer .chip'); if (chip) chip.textContent = app.genre ? app.genre : 'Estimate';
     const link = $('#a-link'); if (link && app.url) link.value = app.url;
     const pf = $('#a-platform'); if (pf) pf.value = app.store === 'play' ? 'Android' : 'iOS';
-    if (note) { note.classList.remove('err'); note.textContent = `Scanned ${app.name}. Slide to your monthly net revenue to size the budget.`; }
+    if (note) { note.classList.remove('err'); note.textContent = app.store === 'play' ? 'Got your Google Play link. We review Play listings by hand and send the X-ray with your plan.' : `Scanned ${app.name}. Slide to your monthly net revenue to size the budget.`; }
     showXray(app);
     const go = () => window.__backed && app.icon && window.__backed.setIcon(app.icon);
     if (window.__backed) go(); else window.addEventListener('backed-ready', go, { once: true });
@@ -295,10 +318,14 @@
       const app = await lookup(pasteIn.value);
       showApp(app);
     } catch (err) {
+      if (note && err.message === 'ambiguous') {
+        window.ABPick(note, err.candidates, id => { pasteIn.value = ''; lookup(id).then(showApp).catch(() => {}); });
+        return;
+      }
       if (note) {
         note.classList.add('err');
         note.textContent = err.message === 'badurl' ? 'That link is not from the App Store or Google Play.'
-          : err.message === 'empty' ? 'Paste a store link or type your app name.' : "Couldn't find that app. Try the full App Store link.";
+          : err.message === 'empty' ? 'Paste a store link or type your app name.' : "Couldn't find that app. Paste the full App Store link.";
       }
     } finally { btn.disabled = false; }
   });
@@ -389,7 +416,15 @@
   }
   burger && burger.addEventListener('click', () => setMenu(menu.hidden));
   menu && $$('a', menu).forEach(a => a.addEventListener('click', () => setMenu(false)));
-  addEventListener('keydown', e => { if (e.key === 'Escape' && menu && !menu.hidden) setMenu(false); });
+  addEventListener('keydown', e => {
+    if (!menu || menu.hidden) return;
+    if (e.key === 'Escape') { setMenu(false); burger.focus(); return; }
+    if (e.key !== 'Tab') return;
+    const f = [burger, ...$$('a, button', menu)];
+    const i = f.indexOf(document.activeElement);
+    if (e.shiftKey && i <= 0) { e.preventDefault(); f[f.length - 1].focus(); }
+    else if (!e.shiftKey && (i === -1 || i === f.length - 1)) { e.preventDefault(); f[0].focus(); }
+  });
 
   function onScroll() {
     if (hdr) hdr.classList.toggle('solid', scrollY > 24);
@@ -423,12 +458,14 @@
   // ---------------------------------------------------------------------------
   const form = $('#apply-form');
   if (form) {
+    const okBox = $('#a-ok');
+    okBox && okBox.addEventListener('change', () => { okBox.parentElement.style.color = ''; });
     if ((q.get('app') || q.has('r')) && $('#est')) $('#est').hidden = false;
     form.addEventListener('submit', async e => {
       e.preventDefault();
       if (form.website && form.website.value) return; // honeypot
       const link = $('#a-link'), contact = $('#a-contact'), ok = $('#a-ok');
-      const linkOk = /^(https?:\/\/)?(apps\.apple\.com|play\.google\.com)\//i.test(link.value.trim());
+      const linkOk = /^(https?:\/\/)?(apps\.apple\.com|itunes\.apple\.com|play\.google\.com)\/\S+/i.test(link.value.trim());
       $('#f-link').classList.toggle('bad', !linkOk);
       $('#f-contact').classList.toggle('bad', contact.value.trim().length < 3);
       if (!linkOk) { link.focus(); return; }
@@ -452,7 +489,7 @@
         const body = Object.entries(data).map(([k, v]) => `${k}: ${v}`).join('\n');
         location.href = `mailto:hello@appbacked.com?subject=${encodeURIComponent('AppBacked application')}&body=${encodeURIComponent(body)}`;
         form.classList.add('sent');
-        const p = form.querySelector('.ok p'); if (p) p.textContent = 'Your email app opened with everything filled in. Hit send and your growth plan lands within 48 hours.';
+        const p = form.querySelector('.ok p'); if (p) p.textContent = 'Your email app should open with everything filled in. Hit send and your growth plan lands within 48 hours. Nothing opened? Email the same details to hello@appbacked.com.';
       }
     });
   }

@@ -206,6 +206,7 @@
       note.textContent = `Audited ${app.name}. Full report below.`;
       if (scroll && report) setTimeout(() => report.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' }), reduce ? 0 : 900);
     } catch (err) {
+      if (err.message === 'ambiguous' && window.ABPick) { window.ABPick(note, err.candidates, id => run(id, true)); return; }
       note.classList.add('err');
       note.textContent = err.message === 'badurl' ? 'That link is not from the App Store.' : err.message === 'empty' ? 'Paste an App Store link or type the app name.' : 'Couldn’t find that app. Try the full App Store link.';
     } finally { btn.disabled = false; }

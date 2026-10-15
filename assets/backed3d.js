@@ -92,9 +92,11 @@ export function createBacked(container, opts = {}) {
   const key = new THREE.DirectionalLight(0xffffff, 2.4);
   key.position.set(-3.2, 4.2, 6);
   key.castShadow = true;
-  key.shadow.mapSize.set(2048, 2048);
-  key.shadow.radius = 14;
-  key.shadow.blurSamples = 20;
+  // phones get a lighter shadow pass; the blur hides the lower resolution
+  const small = Math.min(innerWidth, innerHeight) < 700;
+  key.shadow.mapSize.set(small ? 1024 : 2048, small ? 1024 : 2048);
+  key.shadow.radius = small ? 10 : 14;
+  key.shadow.blurSamples = small ? 12 : 20;
   key.shadow.bias = -0.0004;
   Object.assign(key.shadow.camera, { left: -5, right: 5, top: 5, bottom: -5, near: 0.5, far: 25 });
   scene.add(key);
@@ -166,6 +168,7 @@ export function createBacked(container, opts = {}) {
 
   // ---- state & loop ----
   let W = 1, H = 1, visible = true, raf = 0, last = 0;
+  let lastDraw = 0;
   let clock = 0;
   const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
   const anims = [];
@@ -214,13 +217,15 @@ export function createBacked(container, opts = {}) {
     group.rotation.y = o.pose.ry + pointer.x * 0.28;
     group.rotation.x = o.pose.rx + pointer.y * 0.16;
 
+    // the idle float is slow: 30 fps is enough and halves GPU work while the hero is on screen
+    const busy = moving;
     if (o.float && !reduce) {
       group.position.y = Math.sin(clock * 0.9) * 0.06;
       coin.rotation.z = Math.sin(clock * 0.6) * 0.08;
       moving = true;
     }
 
-    renderer.render(scene, camera);
+    if (busy || !moving || now - lastDraw >= 32) { renderer.render(scene, camera); lastDraw = now; }
     if (moving && visible) raf = requestAnimationFrame(frame);
   }
 

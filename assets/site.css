@@ -759,3 +759,29 @@ body.menu-open .hdr { background: var(--blue); }
 .xray-more { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; font-size: 14px; font-weight: 700; color: var(--lime); text-decoration: none; border-bottom: 1.5px solid currentColor; padding-bottom: 1px; }
 .xray-more:hover .arr { transform: translateX(3px); }
 .xray-more .arr { transition: transform .2s var(--ease); }
+.audit-hero h1 { font-size: clamp(42px, 5.4vw, 88px); }
+.art-hero .lead { max-width: 40em; }
+
+/* =====================================================================
+   Detail-audit fixes (2026-10-15)
+   ===================================================================== */
+img { height: auto; }
+@media (max-width: 520px) { .paste input { flex: 0 0 52px; } }
+.ftr a.btn { opacity: 1; color: var(--fg); }
+.ftr a.btn:hover { text-decoration: none; }
+.menu-open .dock { display: none !important; }
+.bone :focus-visible, .paper :focus-visible, .form :focus-visible, .controls :focus-visible, .audit-card :focus-visible, .scn :focus-visible { outline-color: var(--blue); }
+.hdr .logo .lg-ink { display: none; }
+.ink-top .hdr:not(.solid) .logo .lg-blue { display: none; }
+.ink-top .hdr:not(.solid) .logo .lg-ink { display: block; }
+body.menu-open .hdr .logo .lg-blue { display: block; }
+body.menu-open .hdr .logo .lg-ink { display: none; }
+.apply .wrap { grid-template-areas: "copy form" "next form"; grid-template-rows: auto 1fr; }
+.apply .wrap > div:first-child { grid-area: copy; }
+.apply .form { grid-area: form; }
+.apply .next { grid-area: next; align-self: start; }
+@media (max-width: 900px) { .apply .wrap { grid-template-areas: "copy" "form" "next"; grid-template-rows: auto; } .apply .next { margin-top: 6px; } }
+.paste-note .pick { margin: 0 6px 6px 0; border: 1px solid var(--line-blue); background: rgba(255, 255, 255, .12); color: var(--white); border-radius: 999px; padding: 5px 12px; font-size: 13.5px; cursor: pointer; }
+.paste-note .pick:hover { background: rgba(255, 255, 255, .22); }
+.paste-note:has(.pick) { flex-wrap: wrap; }
+.eyebrow { text-wrap: balance; }
