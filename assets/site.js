@@ -209,6 +209,7 @@
     const rating = a.averageUserRating ? '★ ' + a.averageUserRating.toFixed(1) + ' · ' + ratingsFmt(a.userRatingCount || 0) + ' ratings' : a.primaryGenreName;
     return { id: String(a.trackId), store: 'ios', name: a.trackName, seller: a.sellerName, sub: `${a.sellerName} · ${rating}`, icon: a.artworkUrl512 || a.artworkUrl100, url: a.trackViewUrl && a.trackViewUrl.split('?')[0], genre: a.primaryGenreName, raw: a };
   }
+  window.ABLookup = lookup; // shared with assets/audit.js
 
   // ---------------------------------------------------------------------------
   // Growth X-ray: honest signals from public store data, phrased as levers
@@ -260,6 +261,7 @@
     });
     box.hidden = false;
     box.classList.remove('run'); void box.offsetWidth; box.classList.add('run');
+    const more = $('#xray-more'); if (more && app.store === 'ios') more.href = more.getAttribute('href').split('?')[0] + '?app=' + encodeURIComponent(app.id);
     const trust = $('.hero .trust'); if (trust) trust.hidden = true;
   }
 
@@ -402,7 +404,19 @@
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) { x.target.classList.add('in'); io.unobserve(x.target); } }), { threshold: 0.18, rootMargin: '0px 0px -6% 0px' });
     $$('.rv').forEach((n, i) => { n.style.transitionDelay = (i % 4) * 0.07 + 's'; io.observe(n); });
-  } else $$('.rv').forEach(n => n.classList.add('in'));
+  } else $('.rv').forEach(n => n.classList.add('in'));
+
+  // guide table of contents: highlight the section being read
+  const toc = $('.toc');
+  if (toc && 'IntersectionObserver' in window) {
+    const links = new Map($('a[href^="#"]', toc).map(a => [a.getAttribute('href').slice(1), a]));
+    const tio = new IntersectionObserver(es => es.forEach(x => {
+      if (!x.isIntersecting) return;
+      links.forEach(a => a.classList.remove('on'));
+      const a = links.get(x.target.id); if (a) a.classList.add('on');
+    }), { rootMargin: '-20% 0px -70% 0px' });
+    $('.prose h2[id]').forEach(h => tio.observe(h));
+  }
 
   // ---------------------------------------------------------------------------
   // apply form

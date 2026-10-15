@@ -1,0 +1,31 @@
+# AppBacked
+
+> AppBacked is a growth partner for mobile apps that already earn. We invest our own budget and our own growth team (store pages and localization, paywalls and pricing, creatives and paid user acquisition) in an app. The developer pays nothing upfront, keeps 100% of today's revenue and keeps ownership. Revenue above a three-month baseline is split 50/50 for 24 months; after that, all revenue is the developer's again, including from users we paid to acquire. Ad accounts stay in the developer's name.
+
+Key facts:
+- Budget: up to 6x the app's monthly net revenue, from $5,000. The first month is a test funded by AppBacked; either side can stop after it.
+- Fit: apps live on the App Store or Google Play with subscriptions, in-app purchases or ads working, from about $1,000 a month in net revenue and six months of history. Not a fit: hypercasual games, apps without monetization.
+- No cash is sent to the developer, no repayment, no equity, no fees.
+- Applications get a growth plan or a reasoned no within 48 hours.
+- Contact: hello@appbacked.com
+- Figures on the website are illustrative estimates, not an offer.
+
+## Free tools
+- [Free App Store audit](https://appbacked.com/app-store-audit/): paste an App Store link or app name; scores the product page out of 100 from public data (name, languages, screenshots, iPad gallery, ratings, update age, release notes, size, pricing) and lists what to fix first.
+- [Growth budget calculator](https://appbacked.com/calculator/): estimates the budget AppBacked would invest and the revenue split month by month in three scenarios.
+
+## How it works
+- [How it works](https://appbacked.com/how-it-works/): the deal, the baseline, the test month, scenarios.
+- [Growth team](https://appbacked.com/growth-team/): what the team does and the monthly statement.
+- [FAQ](https://appbacked.com/faq/)
+- [Apply](https://appbacked.com/apply/)
+
+## Guides
+- [App Store screenshot sizes for 2026](https://appbacked.com/guides/app-store-screenshot-sizes/): every iPhone, iPhone Duo, iPad, Mac, Apple TV, Vision Pro and Apple Watch size, Google Play rules, app preview specs.
+- [App Store localization: which languages first](https://appbacked.com/guides/app-store-localization/): all 50 localizations, storefront languages, field limits, prioritization.
+- [How to fund your app's growth](https://appbacked.com/guides/fund-app-growth/): bootstrapping, revenue-based financing, angels and VCs, publishers, agencies, growth partners and selling, compared.
+- [Growth partner vs agency vs publisher](https://appbacked.com/guides/growth-partner-vs-agency/): incentives, ownership, risk and eight contract checks.
+
+## Company
+- [About](https://appbacked.com/about/)
+- [Brand kit](https://appbacked.com/brand/)

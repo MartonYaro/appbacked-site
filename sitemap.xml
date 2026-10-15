@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://appbacked.com/about/</loc></url>
-  <url><loc>https://appbacked.com/apply/</loc></url>
-  <url><loc>https://appbacked.com/badge/</loc></url>
-  <url><loc>https://appbacked.com/calculator/</loc></url>
-  <url><loc>https://appbacked.com/faq/</loc></url>
-  <url><loc>https://appbacked.com/growth-team/</loc></url>
-  <url><loc>https://appbacked.com/</loc></url>
-  <url><loc>https://appbacked.com/how-it-works/</loc></url>
-  <url><loc>https://appbacked.com/legal/privacy/</loc></url>
-  <url><loc>https://appbacked.com/legal/terms/</loc></url>
+  <url><loc>https://appbacked.com/</loc><lastmod>2026-10-15</lastmod></url>
+  <url><loc>https://appbacked.com/faq/</loc><lastmod>2026-10-15</lastmod></url>
+  <url><loc>https://appbacked.com/about/</loc><lastmod>2026-10-15</lastmod></url>
+  <url><loc>https://appbacked.com/apply/</loc><lastmod>2026-10-15</lastmod></url>
+  <url><loc>https://appbacked.com/badge/</loc><lastmod>2026-10-15</lastmod></url>
+  <url><loc>https://appbacked.com/brand/</loc><lastmod>2026-10-15</lastmod></url>
+  <url><loc>https://appbacked.com/guides/</loc><lastmod>2026-10-15</lastmod></url>
+  <url><loc>https://appbacked.com/calculator/</loc><lastmod>2026-10-15</lastmod></url>
+  <url><loc>https://appbacked.com/growth-team/</loc><lastmod>2026-10-15</lastmod></url>
+  <url><loc>https://appbacked.com/legal/terms/</loc><lastmod>2026-10-15</lastmod></url>
+  <url><loc>https://appbacked.com/how-it-works/</loc><lastmod>2026-10-15</lastmod></url>
+  <url><loc>https://appbacked.com/legal/privacy/</loc><lastmod>2026-10-15</lastmod></url>
+  <url><loc>https://appbacked.com/app-store-audit/</loc><lastmod>2026-10-15</lastmod></url>
+  <url><loc>https://appbacked.com/guides/fund-app-growth/</loc><lastmod>2026-10-15</lastmod></url>
+  <url><loc>https://appbacked.com/guides/app-store-localization/</loc><lastmod>2026-10-15</lastmod></url>
+  <url><loc>https://appbacked.com/guides/growth-partner-vs-agency/</loc><lastmod>2026-10-15</lastmod></url>
+  <url><loc>https://appbacked.com/guides/app-store-screenshot-sizes/</loc><lastmod>2026-10-15</lastmod></url>
 </urlset>

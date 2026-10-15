@@ -7,7 +7,7 @@ const path = require('path');
 const zlib = require('zlib');
 
 const ROOT = __dirname;
-const PORT = +(process.env.PORT || 8080);
+const PORT = +(process.env.PORT || process.argv[2] || 8080);
 const TYPES = {
   '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8',
   '.json': 'application/json; charset=utf-8', '.xml': 'application/xml; charset=utf-8', '.txt': 'text/plain; charset=utf-8',
@@ -18,7 +18,7 @@ const COMPRESS = /\.(html|css|js|json|xml|txt|svg)$/i;
 const BLOCK = new Set(['server.js', 'package.json', 'package-lock.json', 'railway.json']);
 const cache = new Map();
 
-function headersFor(file) {
+function headersFor(file, versioned) {
   const ext = path.extname(file).toLowerCase();
   const h = {
     'Content-Type': TYPES[ext] || 'application/octet-stream',
@@ -27,12 +27,16 @@ function headersFor(file) {
     'X-Frame-Options': 'SAMEORIGIN',
     'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
   };
-  h['Cache-Control'] = ext === '.html' || ext === '.xml' || ext === '.txt' ? 'no-cache' : 'public, max-age=3600';
+  // HTML and feeds always revalidate; ?v=<hash> assets and fonts never change; images change rarely
+  h['Cache-Control'] = ext === '.html' || ext === '.xml' || ext === '.txt' ? 'no-cache'
+    : versioned || /[\/]assets[\/]fonts[\/]/.test(file) ? 'public, max-age=31536000, immutable'
+      : /[\/](og|brand)[\/]/.test(file) ? 'public, max-age=604800'
+        : 'public, max-age=3600';
   return h;
 }
 
-function send(req, res, file, status) {
-  const head = headersFor(file);
+function send(req, res, file, status, versioned) {
+  const head = headersFor(file, versioned);
   const gz = COMPRESS.test(file) && /\bgzip\b/.test(req.headers['accept-encoding'] || '');
   const key = file + (gz ? ':gz' : '');
   let body = cache.get(key);
@@ -65,7 +69,7 @@ http.createServer((req, res) => {
       file = path.join(file, 'index.html');
     }
     if (!fs.existsSync(file)) return send(req, res, path.join(ROOT, '404.html'), 404);
-    send(req, res, file, 200);
+    send(req, res, file, 200, url.searchParams.has('v'));
   } catch (e) {
     res.writeHead(500, { 'Content-Type': 'text/plain' });
     res.end('Server error');
