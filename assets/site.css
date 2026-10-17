@@ -809,3 +809,9 @@ body.menu-open .hdr .logo .lg-ink { display: none; }
 .xray-mail .xm-msg.err { color: #FFB4A8; }
 .xray-mail.sent .xm-row, .xray-mail.sent .consent { display: none; }
 @media (max-width: 520px) { .xray-mail .xm-row { flex-direction: column; border-radius: 18px; padding: 6px; } .xray-mail .xm-row input { padding: 0 12px; } .xray-mail .xm-row .btn { width: 100%; } }
+
+/* home hero: the human path next to the scan */
+.paste-alt { margin-top: 10px; font-size: 14px; color: var(--on-blue); max-width: 600px; }
+.paste-alt a { color: var(--lime); font-weight: 700; text-decoration: none; border-bottom: 1.5px solid currentColor; margin-right: 6px; }
+.paste-alt a:hover .arr { transform: translateX(3px); }
+.paste-alt .arr { display: inline-block; transition: transform .2s var(--ease); }
