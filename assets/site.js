@@ -286,7 +286,39 @@
     box.classList.remove('run'); void box.offsetWidth; box.classList.add('run');
     const more = $('#xray-more'); if (more && app.store === 'ios') more.href = more.getAttribute('href').split('?')[0] + '?app=' + encodeURIComponent(app.id);
     const trust = $('.hero .trust'); if (trust) trust.hidden = true;
+    const xm = $('#xray-mail');
+    if (xm) {
+      xm.classList.remove('sent');
+      const msg = $('#xm-msg'); if (msg) msg.hidden = true;
+      const h = $('#xm-h'); if (h) h.firstChild.textContent = app.store === 'play' ? 'We review Google Play listings by hand. Where should we send the X-ray and a growth plan for ' : 'Get the full report and a growth plan for ';
+    }
   }
+
+  // X-ray: email the report right under the result (same endpoint as the apply form, with consent)
+  const xmForm = $('#xray-mail');
+  xmForm && xmForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    if (xmForm.website && xmForm.website.value) return;
+    const email = $('#xm-email'), ok = $('#xm-ok'), msg = $('#xm-msg'), btn = $('button[type=submit]', xmForm);
+    const good = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(email.value.trim());
+    email.parentElement.classList.toggle('bad', !good);
+    if (!good) { email.focus(); return; }
+    if (!ok.checked) { ok.focus(); ok.parentElement.style.color = '#FFB4A8'; return; }
+    if (!st.app) return;
+    const band = !st.touched ? '' : st.r < 1000 ? 'Under $1k' : st.r < 3000 ? '$1k–3k' : st.r < 10000 ? '$3k–10k' : st.r < 30000 ? '$10k–30k' : '$30k+';
+    btn.disabled = true; msg.hidden = true; msg.classList.remove('err');
+    try {
+      const r = await fetch('/api/apply', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ kind: 'audit', source: 'xray', link: st.app.url, platform: st.app.store === 'play' ? 'Android' : 'iOS', revenue: band, contact: email.value.trim(), consent: 'yes' }) });
+      const res = await r.json().catch(() => ({}));
+      if (!r.ok || !res.ok || res.delivered === false) throw new Error(res.error || r.status);
+      xmForm.classList.add('sent');
+      msg.textContent = 'Sent. Check your inbox. If the app fits what we do, a growth plan follows within 48 hours.';
+    } catch (err) {
+      msg.classList.add('err');
+      msg.textContent = 'Could not send. Try again or write to hello@appbacked.com';
+    } finally { msg.hidden = false; btn.disabled = false; }
+  });
+  $('#xm-ok') && $('#xm-ok').addEventListener('change', e => { e.target.parentElement.style.color = ''; });
 
   function showApp(app) {
     st.app = app;

@@ -31,11 +31,11 @@
 <link rel="preload" href="./assets/fonts/funnel-display-300-800-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="./assets/fonts/funnel-sans-300-800-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="./assets/fonts.css?v=920bf120">
-<link rel="stylesheet" href="./assets/site.css?v=72ab62d6">
+<link rel="stylesheet" href="./assets/site.css?v=6d34740f">
 <link rel="alternate" type="text/plain" href="./llms.txt" title="LLM summary">
 <script>document.documentElement.classList.add('js')</script>
 <script type="importmap">{"imports":{"three":"./assets/vendor/three/three.module.min.js","three/addons/":"./assets/vendor/three/addons/"}}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://appbacked.com/#org","name":"AppBacked","alternateName":"App Backed","url":"https://appbacked.com/","logo":{"@type":"ImageObject","url":"https://appbacked.com/brand/png/icon-512.png","width":512,"height":512},"sameAs":["https://www.linkedin.com/company/appbacked/"],"email":"hello@appbacked.com","description":"AppBacked invests its own budget and growth team in mobile apps that already earn, and shares only the revenue above each app’s existing baseline."},{"@type":"WebSite","@id":"https://appbacked.com/#site","url":"https://appbacked.com/","name":"AppBacked","alternateName":["App Backed","appbacked.com"],"publisher":{"@id":"https://appbacked.com/#org"}},{"@type":"WebPage","@id":"https://appbacked.com/#page","url":"https://appbacked.com/","name":"We spend. You grow. We split the difference.","description":"AppBacked puts its own money and growth team behind apps that already earn: ASO, creatives, paid users, paywalls. $0 upfront. We share only revenue above your baseline.","isPartOf":{"@id":"https://appbacked.com/#site"},"inLanguage":"en","image":"https://appbacked.com/og/home.png","dateModified":"2026-10-15"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://appbacked.com/#org","name":"AppBacked","alternateName":"App Backed","url":"https://appbacked.com/","logo":{"@type":"ImageObject","url":"https://appbacked.com/brand/png/icon-512.png","width":512,"height":512},"sameAs":["https://www.linkedin.com/company/appbacked/"],"email":"hello@appbacked.com","description":"AppBacked invests its own budget and growth team in mobile apps that already earn, and shares only the revenue above each app’s existing baseline."},{"@type":"WebSite","@id":"https://appbacked.com/#site","url":"https://appbacked.com/","name":"AppBacked","alternateName":["App Backed","appbacked.com"],"publisher":{"@id":"https://appbacked.com/#org"}},{"@type":"WebPage","@id":"https://appbacked.com/#page","url":"https://appbacked.com/","name":"We spend. You grow. We split the difference.","description":"AppBacked puts its own money and growth team behind apps that already earn: ASO, creatives, paid users, paywalls. $0 upfront. We share only revenue above your baseline.","isPartOf":{"@id":"https://appbacked.com/#site"},"inLanguage":"en","image":"https://appbacked.com/og/home.png","dateModified":"2026-10-17"}]}</script>
 <!-- Built from src/ by tools/build-site.cjs. Edit the source, not this file. -->
 </head>
 <body class="home">
@@ -93,6 +93,16 @@
         <i class="scan" aria-hidden="true"></i>
         <div class="xh"><span>Growth X-ray · <b id="xray-name">Your app</b></span><span class="pill" id="xray-score">Upside</span></div>
         <ul id="xray-list"></ul>
+        <form class="xray-mail" id="xray-mail" novalidate>
+          <p class="xm-h" id="xm-h">Get the full report and a growth plan for <b data-app-name>your app</b></p>
+          <div class="xm-row">
+            <input id="xm-email" name="email" type="email" autocomplete="email" placeholder="you@studio.com" aria-label="Your email" required>
+            <button class="btn sm" type="submit">Send it <span class="arr">→</span></button>
+          </div>
+          <div class="hp" aria-hidden="true"><label>Website <input name="website" tabindex="-1" autocomplete="off"></label></div>
+          <label class="consent"><input type="checkbox" id="xm-ok" name="consent" value="yes" required> <span>I agree that AppBacked uses my email and this app's public store data to send the report and follow up once about a growth plan. <a href="./legal/privacy/">Privacy policy</a></span></label>
+          <p class="xm-msg" id="xm-msg" role="status" hidden></p>
+        </form>
         <a class="xray-more" id="xray-more" href="./app-store-audit/">Full 11-point App Store audit, free <span class="arr">→</span></a>
       </div>
       <div class="trust" aria-label="Key terms">
@@ -355,7 +365,7 @@
 </footer>
 
 <div class="dock" id="dock"><span class="mono" id="dock-num">$0 upfront · 50/50 on growth</span><a class="btn sm" href="./app-store-audit/">Free audit <span class="arr">→</span></a></div>
-<script src="./assets/site.js?v=4f4909aa" defer></script>
+<script src="./assets/site.js?v=7c1190c1" defer></script>
 
 <script type="module">
   import { createBacked } from './assets/backed3d.js?v=53c57b98';

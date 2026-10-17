@@ -794,3 +794,18 @@ body.menu-open .hdr .logo .lg-ink { display: none; }
 .rep-mail .send-err { color: #C42B1C; font-size: 14px; }
 .rep-mail.sent { grid-template-columns: minmax(0, 1fr); }
 @media (max-width: 760px) { .rep-mail { grid-template-columns: minmax(0, 1fr); } }
+
+/* home X-ray: email the report */
+.xray-mail { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line-blue); display: grid; gap: 10px; }
+.xray-mail .xm-h { font-weight: 700; font-size: 15.5px; color: var(--white); }
+.xray-mail .xm-row { display: flex; gap: 8px; background: var(--white); border-radius: 999px; padding: 5px 5px 5px 18px; }
+.xray-mail .xm-row input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--ink); font-size: 16px; height: 44px; }
+.xray-mail .xm-row input:focus-visible { outline: 0; }
+.xray-mail .xm-row:focus-within { box-shadow: 0 0 0 3px var(--lime); }
+.xray-mail .xm-row.bad { box-shadow: 0 0 0 3px #FF8A7A; }
+.xray-mail .consent { color: var(--on-blue); font-size: 13px; }
+.xray-mail .consent a { color: var(--white); }
+.xray-mail .xm-msg { font-size: 14px; color: var(--lime); font-weight: 600; }
+.xray-mail .xm-msg.err { color: #FFB4A8; }
+.xray-mail.sent .xm-row, .xray-mail.sent .consent { display: none; }
+@media (max-width: 520px) { .xray-mail .xm-row { flex-direction: column; border-radius: 18px; padding: 6px; } .xray-mail .xm-row input { padding: 0 12px; } .xray-mail .xm-row .btn { width: 100%; } }

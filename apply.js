@@ -72,7 +72,7 @@ const label = s => s >= 85 ? 'A strong page' : s >= 70 ? 'Solid, with gaps' : s 
 
 function developerEmail(d, app, look, kind = 'apply') {
   const name = app && app.name && app.name !== 'your app' ? app.name : 'your app';
-  const audit = kind === 'audit';
+  const audit = kind === 'audit' && !!look;
   const subject = audit ? `Your App Store audit: ${name}` : look ? `${name}: a first look from AppBacked` : `We got ${name}`;
   const items = look ? (audit ? look.open.slice(0, 6) : look.fixes) : [];
   const applyUrl = `${SITE}/apply/${app && app.id ? '?app=' + encodeURIComponent(app.id) : ''}`;
@@ -120,7 +120,7 @@ ${audit ? `  <tr><td style="padding:8px 32px 0;font:400 14px/1.6 Arial,sans-seri
 
 function leadEmail(d, app, look, kind = 'apply', consent = '') {
   const rows = [
-    ['Source', kind === 'audit' ? 'Audit report request' : 'Application form'],
+    ['Source', kind === 'audit' ? (d.source === 'xray' ? 'Home X-ray' : 'Audit report request') : 'Application form'],
     ['App', app && app.name ? app.name : '?'], ['Link', d.link], ['Platform', d.platform], ['Revenue', d.revenue],
     ['Bottleneck', d.bottleneck], ['Contact', d.contact], ['Estimate', d.estimate], ['Message', d.message],
     ['Audit', look ? `${look.score}/100; ${look.fixes.map(f => f.t).join(', ')}` : 'n/a'],
@@ -163,10 +163,10 @@ async function handleApply(req, res, root) {
   if (d.website) return json(200, { ok: true }); // honeypot: pretend success
   const kind = d.kind === 'audit' ? 'audit' : 'apply';
   if (d.consent !== 'yes' && d.consent !== true) return json(400, { ok: false, error: 'Please agree to be contacted about your app.' });
-  const consent = `yes, ${new Date().toISOString()}, ${kind === 'audit' ? 'audit report form' : 'apply form'}${req.headers['cf-ipcountry'] ? ', ' + req.headers['cf-ipcountry'] : ''}`;
+  const consent = `yes, ${new Date().toISOString()}, ${kind === 'audit' ? (d.source === 'xray' ? 'home X-ray form' : 'audit report form') : 'apply form'}${req.headers['cf-ipcountry'] ? ', ' + req.headers['cf-ipcountry'] : ''}`;
   d = {
     link: clip(d.link, 300), platform: clip(d.platform, 20), revenue: clip(d.revenue, 30), bottleneck: clip(d.bottleneck, 60),
-    contact: clip(d.contact, 120), estimate: clip(d.estimate, 80), message: clip(d.message, 2000),
+    contact: clip(d.contact, 120), estimate: clip(d.estimate, 80), message: clip(d.message, 2000), source: clip(d.source, 20),
   };
   if (!STORE_RE.test(d.link)) return json(400, { ok: false, error: 'Paste a link to apps.apple.com or play.google.com.' });
   if (d.contact.length < 3) return json(400, { ok: false, error: 'We need a way to reach you.' });
