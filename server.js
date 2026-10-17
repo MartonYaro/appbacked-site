@@ -17,6 +17,8 @@ const TYPES = {
 };
 const COMPRESS = /\.(html|css|js|json|xml|txt|svg)$/i;
 const BLOCK = new Set(['server.js', 'apply.js', 'package.json', 'package-lock.json', 'railway.json']);
+const CANON = process.env.CANONICAL_HOST || 'appbacked.com';
+const ORIGIN_TOKEN = process.env.ORIGIN_TOKEN || ''; // set the same value in a Cloudflare transform rule to lock the origin to the edge
 const cache = new Map();
 
 function headersFor(file, versioned) {
@@ -27,6 +29,7 @@ function headersFor(file, versioned) {
     'Referrer-Policy': 'strict-origin-when-cross-origin',
     'X-Frame-Options': 'SAMEORIGIN',
     'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
+    'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
   };
   // HTML and feeds always revalidate; ?v=<hash> assets and fonts never change; images change rarely
   h['Cache-Control'] = ext === '.html' || ext === '.xml' || ext === '.txt' ? 'no-cache'
@@ -54,10 +57,15 @@ function send(req, res, file, status, versioned) {
 
 http.createServer((req, res) => {
   try {
-    const host = (req.headers.host || '').toLowerCase();
-    if (host.startsWith('www.')) {
-      res.writeHead(301, { Location: `https://${host.slice(4)}${req.url}` });
-      return res.end();
+    const host = (req.headers.host || '').toLowerCase().split(':')[0];
+    const local = host === 'localhost' || host === '127.0.0.1';
+    // only the canonical host is served; www and stray hosts redirect, direct-to-origin without the edge token is refused
+    if (!local && host !== CANON) {
+      if (req.method === 'GET' || req.method === 'HEAD') { res.writeHead(301, { Location: `https://${CANON}${req.url}` }); return res.end(); }
+      res.writeHead(403, { 'Content-Type': 'text/plain' }); return res.end('Forbidden');
+    }
+    if (ORIGIN_TOKEN && !local && req.headers['x-origin-token'] !== ORIGIN_TOKEN) {
+      res.writeHead(403, { 'Content-Type': 'text/plain' }); return res.end('Forbidden');
     }
     if (req.method === 'POST' && req.url.split('?')[0] === '/api/apply') {
       return handleApply(req, res, ROOT).catch(e => { console.error('[apply]', e.message); if (!res.headersSent) { res.writeHead(500, { 'Content-Type': 'application/json' }); res.end('{"ok":false}'); } });
@@ -65,9 +73,10 @@ http.createServer((req, res) => {
     if (req.method !== 'GET' && req.method !== 'HEAD') { res.writeHead(405, { Allow: 'GET, HEAD' }); return res.end(); }
     const url = new URL(req.url, 'http://x');
     if (url.pathname === '/healthz') { res.writeHead(200, { 'Content-Type': 'text/plain' }); return res.end('ok'); }
-    let p = decodeURIComponent(url.pathname);
+    let p;
+    try { p = decodeURIComponent(url.pathname); } catch (_) { res.writeHead(400, { 'Content-Type': 'text/plain' }); return res.end('Bad request'); }
     let file = path.resolve(ROOT, '.' + p);
-    if (!(file === ROOT || file.startsWith(ROOT + path.sep)) || BLOCK.has(path.basename(file)) || p.includes('/.')) return send(req, res, path.join(ROOT, '404.html'), 404);
+    if (!(file === ROOT || file.startsWith(ROOT + path.sep)) || BLOCK.has(path.basename(file).toLowerCase()) || p.includes('/.')) return send(req, res, path.join(ROOT, '404.html'), 404);
     if (fs.existsSync(file) && fs.statSync(file).isDirectory()) {
       if (!p.endsWith('/')) { res.writeHead(301, { Location: p + '/' + url.search }); return res.end(); }
       file = path.join(file, 'index.html');

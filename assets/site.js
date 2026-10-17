@@ -148,7 +148,7 @@
     const est = $('#a-est');
     if (est) est.value = JSON.stringify({ revenue: st.r, budget: o.B, scenario: st.sc, app: st.app && st.app.name });
     const rev = $('#a-rev');
-    if (rev && !rev.dataset.touched && (q.has('r') || st.touched)) rev.value = st.r < 3000 ? '$1k–3k' : st.r < 10000 ? '$3k–10k' : st.r < 30000 ? '$10k–30k' : st.r < 100000 ? '$30k–100k' : '$100k+';
+    if (rev && !rev.dataset.touched && (q.has('r') || st.touched)) rev.value = st.r < 1000 ? 'Under $1k' : st.r < 3000 ? '$1k–3k' : st.r < 10000 ? '$3k–10k' : st.r < 30000 ? '$10k–30k' : st.r < 100000 ? '$30k–100k' : '$100k+';
   }
 
   $$('[data-sc]').forEach(b => b.addEventListener('click', () => { st.sc = b.dataset.sc; render(); }));
@@ -285,12 +285,13 @@
     box.hidden = false;
     box.classList.remove('run'); void box.offsetWidth; box.classList.add('run');
     const more = $('#xray-more'); if (more && app.store === 'ios') more.href = more.getAttribute('href').split('?')[0] + '?app=' + encodeURIComponent(app.id);
-    const trust = $('.hero .trust'); if (trust) trust.hidden = true;
+    const send = $('#xray-send');
+    if (send) send.href = send.getAttribute('href').split('?')[0] + (app.store === 'ios' ? '?app=' + encodeURIComponent(app.id) : '?link=' + encodeURIComponent(app.url || ''));
     const xm = $('#xray-mail');
     if (xm) {
+      xm.hidden = app.store !== 'ios'; // the X-ray only reads App Store data; Play apps go straight to the team
       xm.classList.remove('sent');
       const msg = $('#xm-msg'); if (msg) msg.hidden = true;
-      const h = $('#xm-h'); if (h) h.firstChild.textContent = app.store === 'play' ? 'We review Google Play listings by hand. Where should we send the X-ray and a growth plan for ' : 'Get the full report and a growth plan for ';
     }
   }
 
@@ -312,7 +313,7 @@
       const res = await r.json().catch(() => ({}));
       if (!r.ok || !res.ok || res.delivered === false) throw new Error(res.error || r.status);
       xmForm.classList.add('sent');
-      msg.textContent = 'Sent. Check your inbox. If the app fits what we do, a growth plan follows within 48 hours.';
+      msg.textContent = 'Sent. The X-ray is on its way to your inbox.';
     } catch (err) {
       msg.classList.add('err');
       msg.textContent = 'Could not send. Try again or write to hello@appbacked.com';
@@ -363,6 +364,7 @@
   });
 
   if (q.get('app')) lookup(q.get('app')).then(showApp).catch(() => {});
+  if (q.get('link') && $('#a-link')) { $('#a-link').value = q.get('link'); const pf = $('#a-platform'); if (pf && /play\.google\.com/.test(q.get('link'))) pf.value = 'Android'; }
 
   $$('[data-focus-paste]').forEach(a => a.addEventListener('click', e => {
     if (!pasteIn) return;
@@ -496,12 +498,15 @@
     form.addEventListener('submit', async e => {
       e.preventDefault();
       if (form.website && form.website.value) return; // honeypot
-      const link = $('#a-link'), contact = $('#a-contact'), ok = $('#a-ok');
+      const link = $('#a-link'), contact = $('#a-contact'), ok = $('#a-ok'), rev = $('#a-rev');
       const linkOk = /^(https?:\/\/)?(apps\.apple\.com|itunes\.apple\.com|play\.google\.com)\/\S+/i.test(link.value.trim());
+      const mailOk = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(contact.value.trim());
       $('#f-link').classList.toggle('bad', !linkOk);
-      $('#f-contact').classList.toggle('bad', contact.value.trim().length < 3);
+      $('#f-contact').classList.toggle('bad', !mailOk);
+      const revBox = $('#f-rev'); if (revBox && rev) revBox.classList.toggle('bad', !rev.value);
       if (!linkOk) { link.focus(); return; }
-      if (contact.value.trim().length < 3) { contact.focus(); return; }
+      if (revBox && rev && !rev.value) { rev.focus(); return; }
+      if (!mailOk) { contact.focus(); return; }
       if (!ok.checked) { ok.focus(); ok.parentElement.style.color = '#C42B1C'; return; }
       const data = Object.fromEntries(new FormData(form).entries());
       delete data.website;

@@ -31,7 +31,7 @@
 <link rel="preload" href="../assets/fonts/funnel-display-300-800-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../assets/fonts/funnel-sans-300-800-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../assets/fonts.css?v=920bf120">
-<link rel="stylesheet" href="../assets/site.css?v=3cd558e1">
+<link rel="stylesheet" href="../assets/site.css?v=d5652c0a">
 <link rel="alternate" type="text/plain" href="../llms.txt" title="LLM summary">
 <script>document.documentElement.classList.add('js')</script>
 
@@ -68,16 +68,16 @@
     <a href="../faq/">FAQ</a>
     <a href="../about/">About</a>
   </nav>
-  <a class="btn" href="../apply/">Apply in 2 minutes <span class="arr">→</span></a>
+  <a class="btn" href="../apply/">Send my app <span class="arr">→</span></a>
 </div>
 
 <main id="top">
-<section class="sec blue grain apply" id="apply" aria-labelledby="h1" style="padding-top:150px">
+<section class="sec blue grain apply apply-page" id="apply" aria-labelledby="h1">
   <div class="wrap">
     <div>
       <p class="crumbs"><a href="../">AppBacked</a> / Apply</p>
       <h1 id="h1" style="font-size:clamp(44px,6.4vw,100px)">Get your growth plan in <span style="color:var(--lime)">48 hours.</span></h1>
-      <p class="lead">Tell us where your app lives. We come back with a budget, a plan and what we'd fix first. Or a straight no, with the reason. No obligation either way.</p>
+      <p class="lead">Tell us where your app lives and roughly what it earns. Within 48 hours you get a written first take: fit yes or no, what we'd fix first and an indicative budget. Firm numbers come after a short call and a look at your reports. Or a straight no, with the reason.</p>
       <div class="est" id="est" hidden>
         <div class="ic" data-app-icon></div>
         <div>
@@ -89,25 +89,33 @@
     </div>
     <form class="form" id="apply-form" data-endpoint="/api/apply" novalidate>
       <div class="field" id="f-link"><label for="a-link">App Store or Google Play link</label><input id="a-link" name="link" type="url" placeholder="https://apps.apple.com/…" required><div class="err">Paste a link to apps.apple.com or play.google.com</div></div>
+      <input type="hidden" id="a-platform" name="platform" value="iOS">
       <div class="row2">
-        <div class="field"><label for="a-platform">Platform</label><select id="a-platform" name="platform"><option>iOS</option><option>Android</option><option>Both</option></select></div>
-        <div class="field"><label for="a-rev">Monthly net revenue</label><select id="a-rev" name="revenue"><option value="" selected>Choose a range</option><option>$1k–3k</option><option>$3k–10k</option><option>$10k–30k</option><option>$30k–100k</option><option>$100k+</option></select></div>
+        <div class="field" id="f-rev"><label for="a-rev">Monthly net revenue, last 3 months</label><select id="a-rev" name="revenue" required><option value="" selected>Choose a range</option><option>Under $1k</option><option>$1k–3k</option><option>$3k–10k</option><option>$10k–30k</option><option>$30k–100k</option><option>$100k+</option></select><div class="err">Pick the closest range</div></div>
+        <div class="field"><label for="a-mon">How the app earns</label><select id="a-mon" name="monetization"><option value="" selected>Choose one</option><option>Subscriptions</option><option>One-time purchases</option><option>Ads</option><option>Paid download</option><option>Mixed</option></select></div>
       </div>
       <div class="row2">
-        <div class="field"><label for="a-focus">Biggest bottleneck</label><select id="a-focus" name="bottleneck"><option>Not enough installs</option><option>Installs don't convert</option><option>Paywall and pricing</option><option>Not sure</option></select></div>
-        <div class="field" id="f-contact"><label for="a-contact">Email or Telegram</label><input id="a-contact" name="contact" type="text" placeholder="you@studio.com or @you" required><div class="err">We need a way to reach you</div></div>
+        <div class="field"><label for="a-live">Live for 6+ months?</label><select id="a-live" name="live6"><option value="" selected>Choose</option><option>Yes</option><option>No</option></select></div>
+        <div class="field"><label for="a-country">Where you or your company are based</label><input id="a-country" name="country" type="text" autocomplete="country-name" placeholder="Country"></div>
       </div>
-      <div class="field"><label for="a-msg">Anything else <span style="text-transform:none">(optional)</span></label><textarea id="a-msg" name="message" placeholder="What have you tried so far?"></textarea></div>
+      <div class="row2">
+        <div class="field"><label for="a-stack">Subscription or analytics stack <span style="text-transform:none">(optional)</span></label><select id="a-stack" name="stack"><option value="" selected>Choose</option><option>RevenueCat</option><option>Adapty</option><option>Qonversion</option><option>Own backend</option><option>None yet</option><option>Other</option></select></div>
+        <div class="field"><label for="a-handle">Telegram or WhatsApp <span style="text-transform:none">(optional)</span></label><input id="a-handle" name="handle" type="text" autocomplete="off" placeholder="@you"></div>
+      </div>
+      <div class="field" id="f-contact"><label for="a-contact">Email</label><input id="a-contact" name="contact" type="email" autocomplete="email" placeholder="you@studio.com" required><div class="err">Enter a valid email</div></div>
+      <div class="field"><label for="a-tried">What you've tried, and your current monthly ad spend <span style="text-transform:none">(optional)</span></label><textarea id="a-tried" name="tried" placeholder="e.g. Apple Search Ads at ~$500/mo, stopped in March; two paywall tests; no localization yet"></textarea></div>
       <div class="hp" aria-hidden="true"><label>Website <input name="website" tabindex="-1" autocomplete="off"></label></div>
       <input type="hidden" name="estimate" id="a-est">
-      <label class="consent"><input type="checkbox" id="a-ok" name="consent" value="yes" required> <span>You can contact me about my growth plan. My data is used only for that. See the <a href="../legal/privacy/">privacy policy</a>.</span></label>
+      <label class="consent"><input type="checkbox" id="a-ok" name="consent" value="yes" required> <span>Review my app and reply with a growth plan or a no. I'll get an automatic first look now, a written reply within 48 hours and at most one reminder. No newsletter; I can reply "stop" at any time. <a href="../legal/privacy/">Privacy policy</a></span></label>
+      <p class="trust-line">Read by Yaro, the founder. No obligation, read-only access to reports, your app stays in your account.</p>
       <button class="btn" type="submit">Send my app <span class="arr">→</span></button>
       <p class="send-err" hidden style="color:#C42B1C;font-size:14px">Could not send. Please email hello@appbacked.com</p>
-      <div class="ok" role="status"><h3>Got it.</h3><p style="margin-top:10px;color:var(--muted)">Your growth plan, or a straight no, lands within 48 hours.</p></div>
+      <div class="ok" role="status"><h3>Got it.</h3><p style="margin-top:10px;color:var(--muted)">Check your inbox: a first look at your store page is already there. A written reply from Yaro follows within 48 hours. Want to add something? Just reply to that email.</p></div>
     </form>
     <div class="next" aria-label="What happens next">
       <div><span class="when">Today</span><p><b>You send the link</b>Two minutes. No deck, no data room.</p></div>
-      <div><span class="when">48 hours</span><p><b>We reply in writing</b>A budget, the channels and what we fix first. Or a no with the reason.</p></div>
+      <div><span class="when">48 hours</span><p><b>We reply in writing</b>Fit yes or no, what we'd fix first, an indicative budget. Or a no with the reason.</p></div>
+      <div><span class="when">Then</span><p><b>A short call and your reports</b>30 minutes, then read-only access to store reports. That turns the range into a firm budget.</p></div>
       <div><span class="when">Month 1</span><p><b>Test, on us</b>Store page, paywall and small paid tests. Either side can walk away after it.</p></div>
       <div><span class="when">Months 2–24</span><p><b>Scale and split</b>We grow what pays back. 50/50 on revenue above your line, with a statement every month.</p></div>
     </div>
@@ -144,7 +152,7 @@
       <div>
         <img src="../brand/logo/appbacked-lockup-on-ink.svg" alt="AppBacked" width="200" height="36">
         <p class="ftr-tag">Our money and our growth team, behind apps that already earn.</p>
-        <a class="btn sm" href="../apply/">Apply in 2 minutes <span class="arr">→</span></a>
+        <a class="btn sm" href="../apply/">Send my app <span class="arr">→</span></a>
       </div>
       <div><h4>Product</h4><ul><li><a href="../how-it-works/">How it works</a></li><li><a href="../calculator/">Growth budget calculator</a></li><li><a href="../growth-team/">Growth team</a></li><li><a href="../badge/">The badge</a></li><li><a href="../apply/">Apply</a></li></ul></div>
       <div><h4>Free tools &amp; guides</h4><ul><li><a href="../app-store-audit/">Free App Store audit</a></li><li><a href="../guides/app-store-screenshot-sizes/">Screenshot sizes</a></li><li><a href="../guides/app-store-localization/">App Store localization</a></li><li><a href="../guides/fund-app-growth/">How to fund app growth</a></li><li><a href="../guides/">All guides</a></li></ul></div>
@@ -156,7 +164,7 @@
 </footer>
 
 
-<script src="../assets/site.js?v=7c1190c1" defer></script>
+<script src="../assets/site.js?v=5463697d" defer></script>
 
 
 </body>

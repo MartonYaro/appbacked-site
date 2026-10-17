@@ -355,7 +355,6 @@ input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 
 body.menu-open { overflow: hidden; }
 body.menu-open .hdr { background: var(--blue); }
 @media (max-width: 960px) { .burger { display: block; } }
-@media (max-width: 420px) { .hdr-r .btn.sm { display: none; } }
 .ftr-tag { margin: 18px 0 22px; color: var(--on-ink); max-width: 34ch; font-size: 15px; }
 
 /* inner page hero */
@@ -815,3 +814,15 @@ body.menu-open .hdr .logo .lg-ink { display: none; }
 .paste-alt a { color: var(--lime); font-weight: 700; text-decoration: none; border-bottom: 1.5px solid currentColor; margin-right: 6px; }
 .paste-alt a:hover .arr { transform: translateX(3px); }
 .paste-alt .arr { display: inline-block; transition: transform .2s var(--ease); }
+
+/* funnel: one action everywhere */
+.xray .xr-send { margin-top: 18px; width: 100%; justify-content: center; }
+.xray .xr-note { margin-top: 10px; font-size: 13.5px; color: var(--on-blue); }
+.xray-mail .xm-h { font-weight: 600; font-size: 14.5px; color: var(--on-blue); }
+.apply-band .wrap { display: grid; gap: 18px; justify-items: start; }
+.apply-band h2 { max-width: 20ch; }
+.apply-band .lead { max-width: 62ch; color: var(--on-blue); }
+.apply-page.sec { padding-top: clamp(104px, 14vw, 150px); }
+.form .trust-line { font-size: 13px; color: var(--muted); margin-top: -4px; }
+.field.bad select { border-color: #C42B1C; }
+@media (max-width: 420px) { .hdr .logo img { height: 24px; } .hdr-r .btn.sm { height: 40px; padding: 0 14px; font-size: 13px; } }

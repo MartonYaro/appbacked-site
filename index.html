@@ -31,7 +31,7 @@
 <link rel="preload" href="./assets/fonts/funnel-display-300-800-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="./assets/fonts/funnel-sans-300-800-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="./assets/fonts.css?v=920bf120">
-<link rel="stylesheet" href="./assets/site.css?v=3cd558e1">
+<link rel="stylesheet" href="./assets/site.css?v=d5652c0a">
 <link rel="alternate" type="text/plain" href="./llms.txt" title="LLM summary">
 <script>document.documentElement.classList.add('js')</script>
 <script type="importmap">{"imports":{"three":"./assets/vendor/three/three.module.min.js","three/addons/":"./assets/vendor/three/addons/"}}</script>
@@ -68,7 +68,7 @@
     <a href="./faq/">FAQ</a>
     <a href="./about/">About</a>
   </nav>
-  <a class="btn" href="./apply/">Apply in 2 minutes <span class="arr">→</span></a>
+  <a class="btn" href="./apply/">Send my app <span class="arr">→</span></a>
 </div>
 
 <main id="top">
@@ -94,14 +94,16 @@
         <i class="scan" aria-hidden="true"></i>
         <div class="xh"><span>Growth X-ray · <b id="xray-name">Your app</b></span><span class="pill" id="xray-score">Upside</span></div>
         <ul id="xray-list"></ul>
+        <a class="btn xr-send" id="xray-send" href="./apply/">Send <span data-app-name>your app</span> to the team <span class="arr">→</span></a>
+        <p class="xr-note">A person replies within 48 hours: fit yes or no, what we'd fix first, an indicative budget.</p>
         <form class="xray-mail" id="xray-mail" novalidate>
-          <p class="xm-h" id="xm-h">Get the full report and a growth plan for <b data-app-name>your app</b></p>
+          <p class="xm-h" id="xm-h">Or just email me this X-ray</p>
           <div class="xm-row">
             <input id="xm-email" name="email" type="email" autocomplete="email" placeholder="you@studio.com" aria-label="Your email" required>
             <button class="btn sm" type="submit">Send it <span class="arr">→</span></button>
           </div>
           <div class="hp" aria-hidden="true"><label>Website <input name="website" tabindex="-1" autocomplete="off"></label></div>
-          <label class="consent"><input type="checkbox" id="xm-ok" name="consent" value="yes" required> <span>I agree that AppBacked uses my email and this app's public store data to send the report and follow up once about a growth plan. <a href="./legal/privacy/">Privacy policy</a></span></label>
+          <label class="consent"><input type="checkbox" id="xm-ok" name="consent" value="yes" required> <span>Email me the report and your growth plan for this app. That's at most three emails about this app (the report, the plan, one reminder), no newsletter. I can reply "stop" at any time. <a href="./legal/privacy/">Privacy policy</a></span></label>
           <p class="xm-msg" id="xm-msg" role="status" hidden></p>
         </form>
         <a class="xray-more" id="xray-more" href="./app-store-audit/">Full 11-point App Store audit, free <span class="arr">→</span></a>
@@ -127,7 +129,7 @@
           <label for="offer-r">Monthly net revenue <b id="offer-r-out">$8,000</b></label>
           <input id="offer-r" type="range" min="1000" max="100000" step="500" value="8000">
         </div>
-        <a class="btn" href="#apply" id="offer-cta">Get my growth plan <span class="arr">→</span></a>
+        <a class="btn" href="./apply/" id="offer-cta" data-apply-url="./apply/">Send my app <span class="arr">→</span></a>
       </div>
     </div>
   </div>
@@ -291,7 +293,7 @@
       <p class="eyebrow"><span class="n">06</span> The badge</p>
       <h2 id="h-badge">Backed apps wear it.</h2>
       <p class="lead">Apps we back get the AppBacked badge for their website, press kit and launch posts. It tells users, partners and your next investor that someone did the homework and bet real money on you.</p>
-      <span style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn" href="#apply">Get backed <span class="arr">→</span></a><a class="btn ghost" href="./badge/">About the badge</a></span>
+      <span style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn" href="./apply/" data-apply-url="./apply/">Send my app <span class="arr">→</span></a><a class="btn ghost" href="./badge/">About the badge</a></span>
     </div>
   </div>
 </section>
@@ -319,31 +321,14 @@
 </section>
 
 <!-- ============ APPLY ============ -->
-<section class="sec blue grain apply" id="apply" aria-labelledby="h-apply">
+<section class="sec blue grain cta-band apply-band" id="apply" aria-labelledby="h-apply">
   <div class="wrap">
-    <div>
-      <p class="eyebrow"><span class="dot"></span>Founding cohort is open</p>
-      <h2 id="h-apply">Get your growth plan in 48 hours.</h2>
-      <p class="lead">Tell us where your app lives. We come back with a budget, a plan and what we'd fix first. Or a straight no, with the reason.</p>
+    <h2 id="h-apply">Send your app. A person replies within 48 hours.</h2>
+    <p class="lead">Fit yes or no, what we'd fix first and an indicative budget, in writing. Or a straight no, with the reason. No obligation, read-only access, your app stays in your account.</p>
+    <div class="acts">
+      <a class="btn" href="./apply/" data-apply-url="./apply/">Send my app <span class="arr">→</span></a>
+      <a class="btn ghost" href="./how-it-works/">How the deal works</a>
     </div>
-    <form class="form" id="apply-form" data-endpoint="" novalidate>
-      <div class="field" id="f-link"><label for="a-link">App Store or Google Play link</label><input id="a-link" name="link" type="url" placeholder="https://apps.apple.com/…" required><div class="err">Paste a link to apps.apple.com or play.google.com</div></div>
-      <div class="row2">
-        <div class="field"><label for="a-platform">Platform</label><select id="a-platform" name="platform"><option>iOS</option><option>Android</option><option>Both</option></select></div>
-        <div class="field"><label for="a-rev">Monthly net revenue</label><select id="a-rev" name="revenue"><option value="" selected>Choose a range</option><option>$1k–3k</option><option>$3k–10k</option><option>$10k–30k</option><option>$30k–100k</option><option>$100k+</option></select></div>
-      </div>
-      <div class="row2">
-        <div class="field"><label for="a-focus">Biggest bottleneck</label><select id="a-focus" name="bottleneck"><option>Not enough installs</option><option>Installs don't convert</option><option>Paywall and pricing</option><option>Not sure</option></select></div>
-        <div class="field" id="f-contact"><label for="a-contact">Email or Telegram</label><input id="a-contact" name="contact" type="text" placeholder="you@studio.com or @you" required><div class="err">We need a way to reach you</div></div>
-      </div>
-      <div class="field"><label for="a-msg">Anything else <span style="text-transform:none">(optional)</span></label><textarea id="a-msg" name="message" placeholder="What have you tried so far?"></textarea></div>
-      <div class="hp" aria-hidden="true"><label>Website <input name="website" tabindex="-1" autocomplete="off"></label></div>
-      <input type="hidden" name="estimate" id="a-est">
-      <label class="consent"><input type="checkbox" id="a-ok" required> <span>You can contact me about my growth plan. My data is used only for that. See the <a href="./legal/privacy/">privacy policy</a>.</span></label>
-      <button class="btn" type="submit">Send my app <span class="arr">→</span></button>
-      <p class="send-err" hidden style="color:#C42B1C;font-size:14px">Could not send. Please email hello@appbacked.com</p>
-      <div class="ok" role="status"><h3>Got it.</h3><p style="margin-top:10px;color:var(--muted)">Your growth plan, or a straight no, lands within 48 hours.</p></div>
-    </form>
   </div>
 </section>
 
@@ -354,7 +339,7 @@
       <div>
         <img src="./brand/logo/appbacked-lockup-on-ink.svg" alt="AppBacked" width="200" height="36">
         <p class="ftr-tag">Our money and our growth team, behind apps that already earn.</p>
-        <a class="btn sm" href="./apply/">Apply in 2 minutes <span class="arr">→</span></a>
+        <a class="btn sm" href="./apply/">Send my app <span class="arr">→</span></a>
       </div>
       <div><h4>Product</h4><ul><li><a href="./how-it-works/">How it works</a></li><li><a href="./calculator/">Growth budget calculator</a></li><li><a href="./growth-team/">Growth team</a></li><li><a href="./badge/">The badge</a></li><li><a href="./apply/">Apply</a></li></ul></div>
       <div><h4>Free tools &amp; guides</h4><ul><li><a href="./app-store-audit/">Free App Store audit</a></li><li><a href="./guides/app-store-screenshot-sizes/">Screenshot sizes</a></li><li><a href="./guides/app-store-localization/">App Store localization</a></li><li><a href="./guides/fund-app-growth/">How to fund app growth</a></li><li><a href="./guides/">All guides</a></li></ul></div>
@@ -365,8 +350,8 @@
   </div>
 </footer>
 
-<div class="dock" id="dock"><span class="mono" id="dock-num">$0 upfront · 50/50 on growth</span><a class="btn sm" href="./app-store-audit/">Free audit <span class="arr">→</span></a></div>
-<script src="./assets/site.js?v=7c1190c1" defer></script>
+<div class="dock" id="dock"><span class="mono" id="dock-num">$0 upfront · app stays yours</span><a class="btn sm" href="./apply/" data-apply-url="./apply/">Send my app <span class="arr">→</span></a></div>
+<script src="./assets/site.js?v=5463697d" defer></script>
 
 <script type="module">
   import { createBacked } from './assets/backed3d.js?v=53c57b98';
