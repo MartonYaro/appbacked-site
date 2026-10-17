@@ -480,17 +480,21 @@
         try {
           const r = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ source: 'appbacked', ...data }) });
           if (!r.ok) throw new Error(r.status);
+          const res = await r.json().catch(() => ({}));
+          if (res.delivered === false) return mailto(data);
           form.classList.add('sent');
         } catch (_) {
           btn.disabled = false; btn.firstChild.textContent = 'Send my app ';
           const p = form.querySelector('.send-err'); if (p) p.hidden = false;
         }
-      } else {
-        const body = Object.entries(data).map(([k, v]) => `${k}: ${v}`).join('\n');
-        location.href = `mailto:hello@appbacked.com?subject=${encodeURIComponent('AppBacked application')}&body=${encodeURIComponent(body)}`;
-        form.classList.add('sent');
-        const p = form.querySelector('.ok p'); if (p) p.textContent = 'Your email app should open with everything filled in. Hit send and your growth plan lands within 48 hours. Nothing opened? Email the same details to hello@appbacked.com.';
-      }
+      } else mailto(data);
     });
+    // no inbox behind the endpoint yet: hand the details to the visitor's mail app
+    function mailto(data) {
+      const body = Object.entries(data).map(([k, v]) => `${k}: ${v}`).join('\n');
+      location.href = `mailto:hello@appbacked.com?subject=${encodeURIComponent('AppBacked application')}&body=${encodeURIComponent(body)}`;
+      form.classList.add('sent');
+      const p = form.querySelector('.ok p'); if (p) p.textContent = 'Your email app should open with everything filled in. Hit send and your growth plan lands within 48 hours. Nothing opened? Email the same details to hello@appbacked.com.';
+    }
   }
 })();

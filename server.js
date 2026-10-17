@@ -5,6 +5,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const zlib = require('zlib');
+const { handleApply } = require('./apply');
 
 const ROOT = __dirname;
 const PORT = +(process.env.PORT || process.argv[2] || 8080);
@@ -15,7 +16,7 @@ const TYPES = {
   '.ico': 'image/x-icon', '.woff2': 'font/woff2', '.zip': 'application/zip',
 };
 const COMPRESS = /\.(html|css|js|json|xml|txt|svg)$/i;
-const BLOCK = new Set(['server.js', 'package.json', 'package-lock.json', 'railway.json']);
+const BLOCK = new Set(['server.js', 'apply.js', 'package.json', 'package-lock.json', 'railway.json']);
 const cache = new Map();
 
 function headersFor(file, versioned) {
@@ -57,6 +58,9 @@ http.createServer((req, res) => {
     if (host.startsWith('www.')) {
       res.writeHead(301, { Location: `https://${host.slice(4)}${req.url}` });
       return res.end();
+    }
+    if (req.method === 'POST' && req.url.split('?')[0] === '/api/apply') {
+      return handleApply(req, res, ROOT).catch(e => { console.error('[apply]', e.message); if (!res.headersSent) { res.writeHead(500, { 'Content-Type': 'application/json' }); res.end('{"ok":false}'); } });
     }
     if (req.method !== 'GET' && req.method !== 'HEAD') { res.writeHead(405, { Allow: 'GET, HEAD' }); return res.end(); }
     const url = new URL(req.url, 'http://x');
