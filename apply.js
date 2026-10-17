@@ -62,16 +62,20 @@ function firstLook(app, root) {
   const list = a.checks(app.data);
   const scored = list.filter(c => c.w > 0);
   const order = { bad: 0, warn: 1, good: 2 };
-  const fixes = scored.filter(c => c.s !== 'good').sort((x, y) => order[x.s] - order[y.s] || y.w - x.w).slice(0, 3);
+  const open = scored.filter(c => c.s !== 'good').sort((x, y) => order[x.s] - order[y.s] || y.w - x.w);
+  const fixes = open.slice(0, 3);
   const good = scored.filter(c => c.s === 'good').sort((x, y) => y.w - x.w).slice(0, 2);
-  return { score: a.score(list), fixes, good };
+  return { score: a.score(list), fixes, open, good };
 }
 
 const label = s => s >= 85 ? 'A strong page' : s >= 70 ? 'Solid, with gaps' : s >= 50 ? 'Leaving installs on the table' : 'Lots of upside';
 
-function developerEmail(d, app, look) {
+function developerEmail(d, app, look, kind = 'apply') {
   const name = app && app.name && app.name !== 'your app' ? app.name : 'your app';
-  const subject = look ? `${name}: a first look from AppBacked` : `We got ${name}`;
+  const audit = kind === 'audit';
+  const subject = audit ? `Your App Store audit: ${name}` : look ? `${name}: a first look from AppBacked` : `We got ${name}`;
+  const items = look ? (audit ? look.open.slice(0, 6) : look.fixes) : [];
+  const applyUrl = `${SITE}/apply/${app && app.id ? '?app=' + encodeURIComponent(app.id) : ''}`;
   const scoreHtml = look ? `
     <tr><td style="padding:0 32px 8px">
       <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background:#F4F2EC;border-radius:12px">
@@ -82,8 +86,8 @@ function developerEmail(d, app, look) {
         </td></tr>
       </table>
     </td></tr>
-    ${look.fixes.length ? `<tr><td style="padding:16px 32px 0;font:700 16px/1.4 Arial,sans-serif;color:#14151F">What we'd look at first</td></tr>
-    ${look.fixes.map(f => `<tr><td style="padding:10px 32px 0;font:400 14px/1.55 Arial,sans-serif;color:#14151F"><b>${esc(f.t)}</b> <span style="color:#4A4D5C">(${esc(f.v)})</span><br><span style="color:#4A4D5C">${esc(f.fix)}</span></td></tr>`).join('')}` : ''}
+    ${items.length ? `<tr><td style="padding:16px 32px 0;font:700 16px/1.4 Arial,sans-serif;color:#14151F">${audit ? 'What to fix, in order' : "What we'd look at first"}</td></tr>
+    ${items.map(f => `<tr><td style="padding:10px 32px 0;font:400 14px/1.55 Arial,sans-serif;color:#14151F"><b>${esc(f.t)}</b> <span style="color:#4A4D5C">(${esc(f.v)})</span><br><span style="color:#4A4D5C">${esc(f.fix)}</span></td></tr>`).join('')}` : ''}
     ${look.good.length ? `<tr><td style="padding:16px 32px 0;font:400 14px/1.55 Arial,sans-serif;color:#4A4D5C">Already good: ${look.good.map(g => esc(g.t.toLowerCase())).join(' and ')}.</td></tr>` : ''}` : '';
 
   const html = `<!doctype html><html><body style="margin:0;background:#E9E7E0">
@@ -91,38 +95,41 @@ function developerEmail(d, app, look) {
 <table role="presentation" cellpadding="0" cellspacing="0" width="600" style="max-width:600px;width:100%;background:#FBFAF6;border-radius:16px;overflow:hidden">
   <tr><td style="background:#2230E6;padding:26px 32px">
     <img src="${SITE}/brand/png/appbacked-lockup-on-blue.png" width="150" alt="AppBacked" style="display:block;border:0;width:150px;height:auto">
-    <div style="font:800 26px/1.15 Arial,sans-serif;color:#F4F2EC;margin-top:18px">We got <span style="color:#D9FF3D">${esc(name)}</span>.</div>
+    <div style="font:800 26px/1.15 Arial,sans-serif;color:#F4F2EC;margin-top:18px">${audit ? 'Your audit for' : 'We got'} <span style="color:#D9FF3D">${esc(name)}</span>${audit ? '' : '.'}</div>
   </td></tr>
-  <tr><td style="padding:26px 32px 18px;font:400 15px/1.6 Arial,sans-serif;color:#14151F">Thanks for sending it. ${look ? 'While a person on our team reviews it, here is what the same audit we run on every app shows.' : 'A person on our team is reviewing it now.'}</td></tr>
+  <tr><td style="padding:26px 32px 18px;font:400 15px/1.6 Arial,sans-serif;color:#14151F">${audit ? 'Here is the report you asked for. It reads your public App Store page the way a visitor sees it.' : `Thanks for sending it. ${look ? 'While a person on our team reviews it, here is what the same audit we run on every app shows.' : 'A person on our team is reviewing it now.'}`}</td></tr>
   ${scoreHtml}
-  <tr><td style="padding:22px 32px 0;font:700 16px/1.4 Arial,sans-serif;color:#14151F">What happens next</td></tr>
-  <tr><td style="padding:8px 32px 0;font:400 14px/1.6 Arial,sans-serif;color:#14151F">Within 48 hours you get a written reply: the budget we'd put in, the channels and what we'd fix first. Or a straight no, with the reason.</td></tr>
-  <tr><td style="padding:12px 32px 0;font:400 14px/1.6 Arial,sans-serif;color:#14151F">It speeds things up if you reply with your monthly revenue trend and what you've already tried for growth.</td></tr>
+  <tr><td style="padding:22px 32px 0;font:700 16px/1.4 Arial,sans-serif;color:#14151F">${audit ? 'Want these fixed?' : 'What happens next'}</td></tr>
+${audit ? `  <tr><td style="padding:8px 32px 0;font:400 14px/1.6 Arial,sans-serif;color:#14151F">If the app already earns, we can put our own budget and growth team behind these fixes. You pay nothing upfront and we share only the revenue above your current level.</td></tr>
+  <tr><td style="padding:16px 32px 0"><a href="${applyUrl}" style="display:inline-block;background:#2230E6;color:#F4F2EC;font:700 15px/1 Arial,sans-serif;text-decoration:none;padding:14px 22px;border-radius:999px">Get a growth plan in 48 hours</a></td></tr>
+  <tr><td style="padding:12px 32px 0;font:400 14px/1.6 Arial,sans-serif;color:#4A4D5C">Or just reply to this email with a question.</td></tr>` : `  <tr><td style="padding:8px 32px 0;font:400 14px/1.6 Arial,sans-serif;color:#14151F">Within 48 hours you get a written reply: the budget we'd put in, the channels and what we'd fix first. Or a straight no, with the reason.</td></tr>
+  <tr><td style="padding:12px 32px 0;font:400 14px/1.6 Arial,sans-serif;color:#14151F">It speeds things up if you reply with your monthly revenue trend and what you've already tried for growth.</td></tr>`}
   <tr><td style="padding:22px 32px 28px;font:400 14px/1.6 Arial,sans-serif;color:#14151F">Yaro<br><span style="color:#4A4D5C">Founder, AppBacked</span></td></tr>
-  <tr><td style="padding:16px 32px;border-top:1px solid #DCD8CC;font:400 12px/1.5 Arial,sans-serif;color:#4A4D5C">You're getting this because you sent ${esc(name)} at appbacked.com. One email about your application, nothing else. <a href="${SITE}/legal/privacy/" style="color:#2230E6">Privacy</a></td></tr>
+  <tr><td style="padding:16px 32px;border-top:1px solid #DCD8CC;font:400 12px/1.5 Arial,sans-serif;color:#4A4D5C">You're getting this because you ${audit ? 'asked for this audit' : 'sent ' + esc(name)} at appbacked.com and agreed to be contacted about it. Reply "stop" and we won't write again. <a href="${SITE}/legal/privacy/" style="color:#2230E6">Privacy</a></td></tr>
 </table></td></tr></table></body></html>`;
 
   const text = [
-    `We got ${name}.`, '',
-    `Thanks for sending it.${look ? ' While a person on our team reviews it, here is what our audit shows.' : ''}`, '',
-    ...(look ? [`Store page score: ${look.score}/100. ${label(look.score)}.`, '', ...(look.fixes.length ? ['What we\'d look at first:', ...look.fixes.map(f => `- ${f.t} (${f.v}): ${f.fix}`), ''] : [])] : []),
-    'What happens next: within 48 hours you get a written reply with the budget we\'d put in, the channels and what we\'d fix first. Or a straight no, with the reason.', '',
-    'It speeds things up if you reply with your monthly revenue trend and what you\'ve already tried for growth.', '',
+    audit ? `Your audit for ${name}` : `We got ${name}.`, '',
+    audit ? 'Here is the report you asked for.' : `Thanks for sending it.${look ? ' While a person on our team reviews it, here is what our audit shows.' : ''}`, '',
+    ...(look ? [`Store page score: ${look.score}/100. ${label(look.score)}.`, '', ...(items.length ? [audit ? 'What to fix, in order:' : 'What we\'d look at first:', ...items.map(f => `- ${f.t} (${f.v}): ${f.fix}`), ''] : [])] : []),
+    ...(audit ? ['Want these fixed? If the app already earns, we can put our own budget and growth team behind them. Nothing upfront; we share only revenue above your current level.', `Get a growth plan in 48 hours: ${applyUrl}`, ''] : ['What happens next: within 48 hours you get a written reply with the budget we\'d put in, the channels and what we\'d fix first. Or a straight no, with the reason.', '', 'It speeds things up if you reply with your monthly revenue trend and what you\'ve already tried for growth.', '']),
     'Yaro', 'Founder, AppBacked', SITE,
   ].join('\n');
   return { subject, html, text };
 }
 
-function leadEmail(d, app, look) {
+function leadEmail(d, app, look, kind = 'apply', consent = '') {
   const rows = [
+    ['Source', kind === 'audit' ? 'Audit report request' : 'Application form'],
     ['App', app && app.name ? app.name : '?'], ['Link', d.link], ['Platform', d.platform], ['Revenue', d.revenue],
     ['Bottleneck', d.bottleneck], ['Contact', d.contact], ['Estimate', d.estimate], ['Message', d.message],
     ['Audit', look ? `${look.score}/100; ${look.fixes.map(f => f.t).join(', ')}` : 'n/a'],
+    ['Consent', consent || '—'],
     ['Store data', app && app.data ? `${app.data.userRatingCount || 0} ratings, ${(app.data.averageUserRating || 0).toFixed(1)}★, ${(app.data.languageCodesISO2A || []).length} languages, ${app.data.primaryGenreName}, ${app.country}` : 'n/a'],
   ];
   const html = `<table cellpadding="6" style="font:14px Arial,sans-serif;border-collapse:collapse">${rows.map(([k, v]) => `<tr><td style="color:#666;vertical-align:top">${esc(k)}</td><td>${esc(v || '—')}</td></tr>`).join('')}</table>`;
   const text = rows.map(([k, v]) => `${k}: ${v || '—'}`).join('\n');
-  return { subject: `New application: ${app && app.name ? app.name : d.link}${d.revenue ? ' · ' + d.revenue : ''}`, html, text };
+  return { subject: `${kind === 'audit' ? 'New audit lead' : 'New application'}: ${app && app.name ? app.name : d.link}${d.revenue ? ' · ' + d.revenue : ''}`, html, text };
 }
 
 async function sendMail(msg) {
@@ -154,22 +161,26 @@ async function handleApply(req, res, root) {
   let d;
   try { d = JSON.parse(await readBody(req)); } catch (_) { return json(400, { ok: false, error: 'Bad request.' }); }
   if (d.website) return json(200, { ok: true }); // honeypot: pretend success
+  const kind = d.kind === 'audit' ? 'audit' : 'apply';
+  if (d.consent !== 'yes' && d.consent !== true) return json(400, { ok: false, error: 'Please agree to be contacted about your app.' });
+  const consent = `yes, ${new Date().toISOString()}, ${kind === 'audit' ? 'audit report form' : 'apply form'}${req.headers['cf-ipcountry'] ? ', ' + req.headers['cf-ipcountry'] : ''}`;
   d = {
     link: clip(d.link, 300), platform: clip(d.platform, 20), revenue: clip(d.revenue, 30), bottleneck: clip(d.bottleneck, 60),
     contact: clip(d.contact, 120), estimate: clip(d.estimate, 80), message: clip(d.message, 2000),
   };
   if (!STORE_RE.test(d.link)) return json(400, { ok: false, error: 'Paste a link to apps.apple.com or play.google.com.' });
   if (d.contact.length < 3) return json(400, { ok: false, error: 'We need a way to reach you.' });
+  if (kind === 'audit' && !EMAIL_RE.test(d.contact)) return json(400, { ok: false, error: 'Enter a valid email.' });
 
   const app = await lookupApp(d.link).catch(() => null);
   const look = firstLook(app, root);
-  const lead = leadEmail(d, app, look);
-  console.log('[apply]', JSON.stringify({ at: new Date().toISOString(), app: app && app.name, link: d.link, revenue: d.revenue, contact: d.contact, score: look && look.score }));
+  const lead = leadEmail(d, app, look, kind, consent);
+  console.log('[apply]', JSON.stringify({ at: new Date().toISOString(), kind, app: app && app.name, link: d.link, revenue: d.revenue, contact: d.contact, score: look && look.score, consent }));
 
   const email = EMAIL_RE.test(d.contact) ? d.contact : null;
   const jobs = [sendMail({ from: MAIL_FROM, to: [LEADS_TO], subject: lead.subject, html: lead.html, text: lead.text, ...(email ? { reply_to: email } : {}) })];
   if (email) {
-    const m = developerEmail(d, app, look);
+    const m = developerEmail(d, app, look, kind);
     jobs.push(sendMail({ from: MAIL_FROM, to: [email], reply_to: REPLY_TO, subject: m.subject, html: m.html, text: m.text }));
   }
   const results = await Promise.allSettled(jobs);

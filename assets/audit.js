@@ -117,8 +117,10 @@
     requestAnimationFrame(tick);
   }
 
+  let current = null;
   function render(app) {
     const a = app.raw;
+    current = app;
     const list = checks(a);
     const s = score(list);
     const [gt, gd] = grade(s);
@@ -173,6 +175,8 @@
       groups.appendChild(box);
     });
 
+    const rmApp = $('[data-rm-app]'); if (rmApp) rmApp.textContent = app.name;
+    const rm = $('#rep-mail'); if (rm) rm.classList.remove('sent');
     const calc = $('#rep-calc'); if (calc) calc.href = `${ROOT}calculator/?app=${encodeURIComponent(app.id)}#math`;
     const apply = $('#rep-apply'); if (apply) apply.href = `${ROOT}apply/?app=${encodeURIComponent(app.id)}`;
     report.hidden = false;
@@ -221,6 +225,28 @@
   });
   const again = $('#rep-again');
   again && again.addEventListener('click', () => { scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); setTimeout(() => input.focus({ preventScroll: true }), reduce ? 0 : 500); });
+
+  // email the report: same endpoint as the apply form, with consent
+  const mail = $('#rep-mail');
+  mail && mail.addEventListener('submit', async e => {
+    e.preventDefault();
+    if (mail.website && mail.website.value) return;
+    const email = $('#rm-email'), ok = $('#rm-ok'), btn = $('button[type=submit]', mail), err = $('.send-err', mail);
+    const good = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(email.value.trim());
+    $('#rm-f-email').classList.toggle('bad', !good);
+    if (!good) { email.focus(); return; }
+    if (!ok.checked) { ok.focus(); ok.parentElement.style.color = '#C42B1C'; return; }
+    if (!current || !current.raw) return;
+    btn.disabled = true; err.hidden = true;
+    const body = { kind: 'audit', source: 'audit', link: current.raw.trackViewUrl || `https://apps.apple.com/app/id${current.raw.trackId}`, platform: 'iOS', revenue: $('#rm-rev').value, contact: email.value.trim(), consent: 'yes' };
+    try {
+      const r = await fetch('/api/apply', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      const res = await r.json().catch(() => ({}));
+      if (!r.ok || !res.ok || res.delivered === false) throw new Error(res.error || r.status);
+      mail.classList.add('sent');
+    } catch (_) { err.hidden = false; } finally { btn.disabled = false; }
+  });
+  $('#rm-ok') && $('#rm-ok').addEventListener('change', e => { e.target.parentElement.style.color = ''; });
 
   const start = new URLSearchParams(location.search).get('app');
   if (start) { input.value = /^\d+$/.test(start) ? '' : start; run(start, false); }
