@@ -227,7 +227,7 @@ function leadEmail(d, app, look, kind, consent, visitorMail) {
     ['Source', kind === 'audit' ? (d.source === 'xray' ? 'Home X-ray' : 'Audit report request') : 'Application form'],
     ['App', appName], ['Link', d.link], ['Platform', d.platform], ['Revenue', d.revenue], ['Earns via', d.monetization],
     ['Live 6+ months', d.live6], ['Based in', d.country], ['Stack', d.stack], ['Tried / ad spend', d.tried],
-    ['Bottleneck', d.bottleneck], ['Message', d.message], ['Email', d.contact], ['Telegram / WhatsApp', d.handle], ['Estimate', d.estimate],
+    ['Bottleneck', d.bottleneck], ['Message', d.message], ['Email', d.contact], ['LinkedIn / X', d.profile], ['Estimate', d.estimate],
     ['Audit', look ? `${look.score}/100; ${look.fixes.map(f => f.t).join(', ')}` : 'n/a'],
     ['Store data', app && app.data ? `${app.data.userRatingCount || 0} ratings, ${(app.data.averageUserRating || 0).toFixed(1)}★, ${(app.data.languageCodesISO2A || []).length} languages, ${app.data.primaryGenreName}, since ${String(app.data.releaseDate || '').slice(0, 10)}, ${app.country}` : 'n/a'],
     ['Visitor email', visitorMail], ['Consent', consent],
@@ -293,7 +293,7 @@ async function handleApply(req, res, root) {
     link: clip(d.link, 300), platform: pick(clip(d.platform, 20), ENUM.platform), revenue: pick(clip(d.revenue, 30), ENUM.revenue),
     monetization: pick(clip(d.monetization, 30), ENUM.monetization), live6: pick(clip(d.live6, 5), ENUM.live6), country: clip(d.country, 60),
     stack: pick(clip(d.stack, 20), ENUM.stack), tried: clip(d.tried, 2000), bottleneck: pick(clip(d.bottleneck, 60), ENUM.bottleneck),
-    contact: clip(d.contact, 120), handle: clip(d.handle, 80), estimate: clip(d.estimate, 80), message: clip(d.message, 2000), source: pick(clip(d.source, 20), ENUM.source),
+    contact: clip(d.contact, 120), profile: clip(d.profile, 160), estimate: clip(d.estimate, 80), message: clip(d.message, 2000), source: pick(clip(d.source, 20), ENUM.source),
   };
   if (!STORE_RE.test(d.link)) return json(400, { ok: false, error: 'Paste a link to apps.apple.com or play.google.com.' });
   if (!EMAIL_RE.test(d.contact)) return json(400, { ok: false, error: 'Enter a valid email.' });
@@ -308,7 +308,7 @@ async function handleApply(req, res, root) {
   const lead = leadEmail(d, app, look, kind, consent, skip ? `skipped: ${skip}` : `sent: ${m.subject}`);
 
   // durable copy first, then mail
-  const record = { at: new Date().toISOString(), kind, form, app: app && (app.name || app.id), link: d.link, revenue: d.revenue, monetization: d.monetization, live6: d.live6, country: d.country, stack: d.stack, tried: d.tried, bottleneck: d.bottleneck, message: d.message, email, handle: d.handle, estimate: d.estimate, score: look && look.score, consent, visitorMail: skip ? `skipped: ${skip}` : 'sent' };
+  const record = { at: new Date().toISOString(), kind, form, app: app && (app.name || app.id), link: d.link, revenue: d.revenue, monetization: d.monetization, live6: d.live6, country: d.country, stack: d.stack, tried: d.tried, bottleneck: d.bottleneck, message: d.message, email, profile: d.profile, estimate: d.estimate, score: look && look.score, consent, visitorMail: skip ? `skipped: ${skip}` : 'sent' };
   let stored = false;
   if (LEADS_FILE) { try { fs.appendFileSync(LEADS_FILE, JSON.stringify(record) + '\n'); stored = true; } catch (e) { console.error('[apply] leads file', e.message); } }
   console.log('[apply]', JSON.stringify({ at: record.at, kind, form, app: record.app, score: record.score, contact: mask(email), visitorMail: record.visitorMail, stored }));
