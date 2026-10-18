@@ -57,6 +57,8 @@ function send(req, res, file, status, versioned) {
 
 http.createServer((req, res) => {
   try {
+    // health check first: Railway probes it with its own Host header
+    if (req.url.split('?')[0] === '/healthz') { res.writeHead(200, { 'Content-Type': 'text/plain', 'Cache-Control': 'no-store' }); return res.end('ok'); }
     const host = (req.headers.host || '').toLowerCase().split(':')[0];
     const local = host === 'localhost' || host === '127.0.0.1';
     // only the canonical host is served; www and stray hosts redirect, direct-to-origin without the edge token is refused
