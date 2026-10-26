@@ -11,6 +11,8 @@ Key facts:
 - Figures on the website are illustrative estimates, not an offer.
 
 ## Free tools
+- [Screenshot size checker](https://appbacked.com/app-store-screenshot-checker/): drop screenshots, see which App Store display class and Google Play rules each fits; runs in the browser.
+- [App Store character counter](https://appbacked.com/app-store-character-counter/): name, subtitle, 100-byte keyword field, promotional text and descriptions for the App Store and Google Play, with keyword tips.
 - [Free App Store audit](https://appbacked.com/app-store-audit/): paste an App Store link or app name; scores the product page out of 100 from public data (name, languages, screenshots, iPad gallery, ratings, update age, release notes, size, pricing) and lists what to fix first.
 - [Growth budget calculator](https://appbacked.com/calculator/): estimates the budget AppBacked would invest and the revenue split month by month in three scenarios.
 
@@ -23,6 +25,7 @@ Key facts:
 ## Guides
 - [App Store screenshot sizes for 2026](https://appbacked.com/guides/app-store-screenshot-sizes/): every iPhone, iPhone Duo, iPad, Mac, Apple TV, Vision Pro and Apple Watch size, Google Play rules, app preview specs.
 - [App Store localization: which languages first](https://appbacked.com/guides/app-store-localization/): all 50 localizations, storefront languages, field limits, prioritization.
+- [App Store locales and locale codes](https://appbacked.com/guides/app-store-locales/): all 50 locale codes (en-US, zh-Hans, pt-BR...) and the default and extra languages of all 175 storefronts, from Apple's tables.
 - [How to fund your app's growth](https://appbacked.com/guides/fund-app-growth/): bootstrapping, revenue-based financing, angels and VCs, publishers, agencies, growth partners and selling, compared.
 - [Growth partner vs agency vs publisher](https://appbacked.com/guides/growth-partner-vs-agency/): incentives, ownership, risk and eight contract checks.
 
